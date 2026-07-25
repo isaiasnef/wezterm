@@ -21,84 +21,86 @@
 
 ### Atajos de teclado
 
-Los atajos usan modificadores portátiles para funcionar igual en macOS, Windows y Linux:
-
-| Modificador     | macOS         | Windows/Linux |
-| --------------- | ------------- | ------------- |
-| `SUPER`         | `Cmd`         | `Alt`         |
-| `SUPER_REV`     | `Cmd`+`Ctrl`  | `Alt`+`Ctrl`  |
-| `LEADER`        | `Cmd`+`Ctrl`+`a` (timeout: 3s) | `Alt`+`Ctrl`+`a` |
+Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plataforma.
 
 > **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.
 
+#### Convención de modificadores
+
+| Modificador | macOS | Linux | Windows |
+|---|---|---|---|
+| `SUPER` | `Cmd` | `Alt` | `Alt` |
+| `SUPER_REV` | `Cmd`+`Ctrl` | `Alt`+`Ctrl` | `Alt`+`Ctrl` |
+| `LEADER` | `Cmd`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) |
+
 #### Generales
 
-| Teclas                    | Acción                     |
-| ------------------------- | -------------------------- |
-| `SUPER` + `k`             | Aumentar fuente            |
-| `SUPER` + `j`             | Disminuir fuente           |
-| `SUPER` + `r`             | Restablecer fuente         |
-| `SUPER` + `f`             | Buscar texto               |
-| `SUPER_REV` + `u`         | Abrir URL bajo el cursor   |
-| `SUPER` + `Backspace`     | Limpiar línea              |
-| `Ctrl` + `Shift` + `c`    | Copiar                     |
-| `Ctrl` + `Shift` + `v`    | Pegar                      |
-| `Ctrl` + clic izquierdo   | Abrir enlace               |
+| Acción | macOS | Linux | Windows |
+|---|---|---|---|
+| Aumentar fuente | `Cmd` + `k` | `Alt` + `k` | `Alt` + `k` |
+| Disminuir fuente | `Cmd` + `j` | `Alt` + `j` | `Alt` + `j` |
+| Restablecer fuente | `Cmd` + `r` | `Alt` + `r` | `Alt` + `r` |
+| Buscar texto | `Cmd` + `f` | `Alt` + `f` | `Alt` + `f` |
+| Abrir URL bajo cursor | `Cmd` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` |
+| Limpiar línea | `Cmd` + `Backspace` | `Alt` + `Backspace` | `Alt` + `Backspace` |
+| Copiar | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` |
+| Pegar | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` |
+| Abrir enlace | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo |
 
 #### Pestañas
 
-| Teclas              | Acción                        |
-| ------------------- | ----------------------------- |
-| `SUPER` + `t`       | Nueva pestaña (dominio default) |
-| `SUPER_REV` + `t`   | Nueva pestaña (WSL Ubuntu)    |
-| `SUPER_REV` + `w`   | Cerrar pestaña                |
-| `SUPER` + `[` / `]` | Pestaña anterior / siguiente  |
-| `SUPER_REV` + `[` / `]` | Mover pestaña izq. / der. |
-| `SUPER` + `9`       | Ocultar/mostrar barra         |
+| Acción | macOS | Linux / Windows |
+|---|---|---|
+| Nueva pestaña (default) | `Cmd` + `t` | `Alt` + `t` |
+| Nueva pestaña (WSL Ubuntu) | `Cmd` + `Ctrl` + `t` | `Alt` + `Ctrl` + `t` |
+| Cerrar pestaña | `Cmd` + `Ctrl` + `w` | `Alt` + `Ctrl` + `w` |
+| Pestaña anterior / siguiente | `Cmd` + `[` / `]` | `Alt` + `[` / `]` |
+| Mover pestaña izq. / der. | `Cmd` + `Ctrl` + `[` / `]` | `Alt` + `Ctrl` + `[` / `]` |
+| Ocultar/mostrar barra | `Cmd` + `9` | `Alt` + `9` |
 
 #### Paneles (panes)
 
-| Teclas                      | Acción                           |
-| --------------------------- | -------------------------------- |
-| `SUPER` + `Shift` + `h`     | Panel horizontal (apilado)       |
-| `SUPER` + `Shift` + `v`     | Panel vertical (lado a lado)     |
-| `SUPER` + `Enter`           | Maximizar/restaurar panel        |
-| `SUPER` + `w`               | Cerrar panel                     |
-| `SUPER_REV` + `h`/`j`/`k`/`l` | Navegar entre panes (vim-style) |
-| `SUPER_REV` + `p`           | Intercambiar panel               |
-| `SUPER` + `u` / `d`         | Desplazar 5 líneas               |
-| `SUPER` + `Shift` + `u` / `d` | Desplazar página               |
+| Acción | macOS | Linux / Windows |
+|---|---|---|
+| Panel horizontal (apilado) | `Cmd` + `Shift` + `h` | `Alt` + `Shift` + `h` |
+| Panel vertical (lado a lado) | `Cmd` + `Shift` + `v` | `Alt` + `Shift` + `v` |
+| Maximizar/restaurar panel | `Cmd` + `Enter` | `Alt` + `Enter` |
+| Cerrar panel | `Cmd` + `w` | `Alt` + `w` |
+| Navegar panes (vim-style) | `Cmd` + `Ctrl` + `h`/`j`/`k`/`l` | `Alt` + `Ctrl` + `h`/`j`/`k`/`l` |
+| Intercambiar panel | `Cmd` + `Ctrl` + `p` | `Alt` + `Ctrl` + `p` |
+| Desplazar 5 líneas | `Cmd` + `u` / `d` | `Alt` + `u` / `d` |
+| Desplazar página | `Cmd` + `Shift` + `u` / `d` | `Alt` + `Shift` + `u` / `d` |
 
 #### Ventanas
 
-| Teclas              | Acción                    |
-| ------------------- | ------------------------- |
-| `SUPER` + `n`       | Nueva ventana             |
-| `SUPER_REV` + `s`   | Reducir tamaño (-50px)    |
-| `SUPER_REV` + `e`   | Aumentar tamaño (+50px)   |
-| `SUPER_REV` + `Enter` | Maximizar ventana        |
+| Acción | macOS | Linux / Windows |
+|---|---|---|
+| Nueva ventana | `Cmd` + `n` | `Alt` + `n` |
+| Reducir tamaño (-50px) | `Cmd` + `Ctrl` + `s` | `Alt` + `Ctrl` + `s` |
+| Aumentar tamaño (+50px) | `Cmd` + `Ctrl` + `e` | `Alt` + `Ctrl` + `e` |
+| Maximizar ventana | `Cmd` + `Ctrl` + `Enter` | `Alt` + `Ctrl` + `Enter` |
 
 #### Acciones LEADER (una tecla)
 
-Presiona `LEADER` (`Cmd`+`Ctrl`+`a`) y luego:
+Presiona `LEADER` (`Cmd`+`Ctrl`+`a` en macOS / `Alt`+`Ctrl`+`a` en Win/Linux) y luego:
 
-| Tecla       | Acción                     |
-| ----------- | -------------------------- |
-| `c`         | Modo copia                 |
-| `,`         | Paleta de comandos         |
-| `Space`     | Lanzador                   |
-| `Enter`     | Pantalla completa          |
-| `d`         | Superposición de depuración |
-| `v`         | Panel vertical             |
-| `h`         | Panel horizontal           |
-| `b`         | Ocultar/mostrar barra      |
+| Tecla | Acción |
+|---|---|
+| `c` | Modo copia |
+| `,` | Paleta de comandos |
+| `Space` | Lanzador |
+| `Enter` | Pantalla completa |
+| `d` | Superposición de depuración |
+| `v` | Panel vertical |
+| `h` | Panel horizontal |
+| `b` | Ocultar/mostrar barra |
 
 #### Modos persistentes (LEADER + tecla)
 
-| Tecla | Modo           |
-| ----- | -------------- |
-| `f`   | `resize_font`  |
-| `p`   | `resize_pane`  |
+| Tecla | Modo |
+|---|---|
+| `f` | `resize_font` |
+| `p` | `resize_pane` |
 
 Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).  
 `Esc` o `q` para salir.
