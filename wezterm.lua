@@ -1,7 +1,6 @@
 local Config = require('config')
 
 require('events.tab-title').setup()
-require('events.right-status').setup()
 require('events.gui-startup').setup()
 
 return Config:init()

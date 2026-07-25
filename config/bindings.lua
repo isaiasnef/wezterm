@@ -2,8 +2,6 @@ local wezterm = require('wezterm')
 local platform = require('utils.platform')
 local act = wezterm.action
 
-local opacity_default = 0.85
-
 local mod = {}
 
 if platform.is_mac then
@@ -24,7 +22,7 @@ end
 --   - No direct F-keys (conflict with macOS system shortcuts); replaced by LEADER+key.
 --   - No PageUp/PageDown; replaced by SUPER+SHIFT+u/d.
 --   - Splits on 'v' (vertical divider) and 'h' (horizontal divider).
---   - '/' requires SHIFT on Spanish layout; opacity shortcuts use letters instead.
+--
 --
 -- Split naming (WezTerm API):
 --   SplitHorizontal -> panes side-by-side (vertical divider) -> 'v'
@@ -118,60 +116,6 @@ local keys = {
       action = wezterm.action_callback(function(window, _pane)
          window:maximize()
       end)
-   },
-
-   -- opacity / blur (repurposed from backdrop shortcuts, same keys) --
-   -- SUPER_REV+r  → reset opacity to default
-   -- SUPER+,      → decrease opacity (more transparent)
-   -- SUPER+.      → increase opacity (less transparent)
-   -- SUPER_REV+b  → toggle blur on/off
-   -- SUPER+b      → toggle transparency on/off
-   {
-      key = 'r',
-      mods = mod.SUPER_REV,
-      action = wezterm.action_callback(function(window, _pane)
-         window:set_config_overrides({ window_background_opacity = opacity_default })
-      end),
-   },
-   {
-      key = [[,]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         local overrides = window:get_config_overrides() or {}
-         local current = overrides.window_background_opacity or opacity_default
-         overrides.window_background_opacity = math.max(0.1, current - 0.05)
-         window:set_config_overrides(overrides)
-      end),
-   },
-   {
-      key = [[.]],
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         local overrides = window:get_config_overrides() or {}
-         local current = overrides.window_background_opacity or opacity_default
-         overrides.window_background_opacity = math.min(1.0, current + 0.05)
-         window:set_config_overrides(overrides)
-      end),
-   },
-   {
-      key = 'b',
-      mods = mod.SUPER_REV,
-      action = wezterm.action_callback(function(window, _pane)
-         local overrides = window:get_config_overrides() or {}
-         local blur = overrides.macos_window_background_blur
-         overrides.macos_window_background_blur = (blur and blur > 0) and 0 or 20
-         window:set_config_overrides(overrides)
-      end),
-   },
-   {
-      key = 'b',
-      mods = mod.SUPER,
-      action = wezterm.action_callback(function(window, _pane)
-         local overrides = window:get_config_overrides() or {}
-         local current = overrides.window_background_opacity or opacity_default
-         overrides.window_background_opacity = current < 1.0 and 1.0 or opacity_default
-         window:set_config_overrides(overrides)
-      end),
    },
 
    -- panes: split --

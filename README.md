@@ -8,14 +8,13 @@
 
 ### Características
 
-- **Selector de fondos de pantalla** — Navegación por imágenes, selección aleatoria, búsqueda difusa y modo de enfoque.
-- **Selección automática de GPU** — Elige la mejor GPU y API gráfica disponible en tu equipo.
-- **Teclado 60% ISO Español** — Atajos optimizados para teclados sin teclas de función ni flechas dedicadas.
+- **Transparencia / frosted glass** — Opacidad 85 % + blur en macOS.
+- **Selección automática de GPU** — Elige la mejor GPU y API gráfica disponible.
+- **Teclado 60% ISO Español** — Atajos optimizados sin teclas F ni flechas dedicadas.
 - **Modificadores portátiles** — Atajos consistentes entre macOS, Windows y Linux.
 - **Tablas de teclas persistentes** — Modos `resize_font` y `resize_pane` sin timeout.
-- **Barra de pestañas inferior** — Estilo navegador/VS Code, se oculta con una sola pestaña.
-- **Personalización visual** — Esquema de colores Nord, fondos dinámicos y campanilla visual.
-- **Hyperlinks automáticos** — Detección de URLs en múltiples formatos (paréntesis, corchetes, etc.).
+- **Pestañas transparentes** — `active_titlebar_bg = 'none'` para efecto uniforme.
+- **Hyperlinks automáticos** — Detección de URLs en múltiples formatos.
 
 ---
 
@@ -29,7 +28,7 @@ Los atajos usan modificadores portátiles para funcionar igual en macOS, Windows
 | `SUPER_REV`     | `Cmd`+`Ctrl`  | `Alt`+`Ctrl`  |
 | `LEADER`        | `Cmd`+`Ctrl`+`a` (timeout: 3s) | `Alt`+`Ctrl`+`a` |
 
-> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown, sin `/` directo.
+> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.
 
 #### Generales
 
@@ -70,16 +69,6 @@ Los atajos usan modificadores portátiles para funcionar igual en macOS, Windows
 | `SUPER_REV` + `p`           | Intercambiar panel               |
 | `SUPER` + `u` / `d`         | Desplazar 5 líneas               |
 | `SUPER` + `Shift` + `u` / `d` | Desplazar página               |
-
-#### Fondos de pantalla
-
-| Teclas              | Acción                       |
-| ------------------- | ---------------------------- |
-| `SUPER_REV` + `r`   | Fondo aleatorio              |
-| `SUPER` + `,`       | Fondo anterior               |
-| `SUPER` + `.`       | Fondo siguiente              |
-| `SUPER_REV` + `b`   | Búsqueda difusa de fondo     |
-| `SUPER` + `b`       | Alternar modo enfoque        |
 
 #### Ventanas
 
@@ -133,16 +122,11 @@ Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).
 │   ├── general.lua        # Comportamiento general, hyperlinks
 │   └── launch.lua         # Shell predeterminado y menú
 ├── events/
-│   ├── tab-title.lua      # Eventos de título de pestaña
+│   ├── tab-title.lua      # Formato de pestañas + toggle barra
 │   └── gui-startup.lua    # Maximizar ventana al inicio
 ├── utils/
-│   ├── backdrops.lua      # Gestor de fondos de pantalla
 │   ├── gpu-adapter.lua    # Selector inteligente de GPU
-│   ├── platform.lua       # Detección de SO
-│   └── opts-validator.lua # Validador de opciones (genérico)
-├── backdrops/             # Imágenes de fondo
-├── colors/
-│   └── custom.lua         # Paleta de colores personalizada
+│   └── platform.lua       # Detección de SO
 ├── .luacheckrc
 ├── .luarc.json
 └── .stylua.toml
