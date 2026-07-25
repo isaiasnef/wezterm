@@ -53,8 +53,6 @@ Los atajos usan modificadores portátiles para funcionar igual en macOS, Windows
 | `SUPER_REV` + `w`   | Cerrar pestaña                |
 | `SUPER` + `[` / `]` | Pestaña anterior / siguiente  |
 | `SUPER_REV` + `[` / `]` | Mover pestaña izq. / der. |
-| `SUPER` + `0`       | Renombrar pestaña             |
-| `SUPER_REV` + `0`   | Restaurar título              |
 | `SUPER` + `9`       | Ocultar/mostrar barra         |
 
 #### Paneles (panes)
@@ -92,8 +90,6 @@ Presiona `LEADER` (`Cmd`+`Ctrl`+`a`) y luego:
 | `d`         | Superposición de depuración |
 | `v`         | Panel vertical             |
 | `h`         | Panel horizontal           |
-| `r`         | Renombrar pestaña          |
-| `R`         | Restaurar título           |
 | `b`         | Ocultar/mostrar barra      |
 
 #### Modos persistentes (LEADER + tecla)

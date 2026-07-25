@@ -79,10 +79,6 @@ local keys = {
    { key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
    { key = ']', mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
 
-   -- tabs: title (rename via LEADER+r; reset kept as direct shortcut) --
-   { key = '0', mods = mod.SUPER,     action = act.EmitEvent('tabs.manual-update-tab-title') },
-   { key = '0', mods = mod.SUPER_REV, action = act.EmitEvent('tabs.reset-tab-title') },
-
    -- tabs: toggle tab bar --
    { key = '9', mods = mod.SUPER, action = act.EmitEvent('tabs.toggle-tab-bar') },
 
@@ -149,7 +145,6 @@ local keys = {
    -- LEADER one-shot actions --
    -- Replaces F1-F12 (conflict with macOS system shortcuts on 60% keyboards).
    -- Splits also work inside opencode (which intercepts SUPER+SHIFT+h/v).
-   -- Rename tab (LEADER+r) replaces the former CMD+0 direct shortcut.
    { key = 'c',     mods = 'LEADER', action = act.ActivateCopyMode },
    { key = ',',     mods = 'LEADER', action = act.ActivateCommandPalette },
    { key = 'Space', mods = 'LEADER', action = act.ShowLauncher },
@@ -157,8 +152,6 @@ local keys = {
    { key = 'd',     mods = 'LEADER', action = act.ShowDebugOverlay },
    { key = 'v',     mods = 'LEADER', action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }) },
    { key = 'h',     mods = 'LEADER', action = act.SplitVertical({ domain = 'CurrentPaneDomain' }) },
-   { key = 'r',     mods = 'LEADER', action = act.EmitEvent('tabs.manual-update-tab-title') },
-   { key = 'R',     mods = 'LEADER', action = act.EmitEvent('tabs.reset-tab-title') },
    { key = 'b',     mods = 'LEADER', action = act.EmitEvent('tabs.toggle-tab-bar') },
 
    -- LEADER persistent modes (no timeout: stays active until Esc/q) --
