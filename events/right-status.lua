@@ -6,7 +6,7 @@ M.setup = function()
    wezterm.on('update-status', function(window, _pane)
       window:set_right_status(wezterm.format({
          { Foreground = { Color = '#fab387' } },
-         { Text = '  ' .. wezterm.strftime('%a %H:%M:%S') .. '  ' },
+         { Text = '  ' .. wezterm.nerdfonts.md_clock_outline .. ' ' .. wezterm.strftime('%H:%M') .. '  ' },
       }))
    end)
 end

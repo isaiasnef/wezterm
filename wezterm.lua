@@ -1,10 +1,7 @@
 local Config = require('config')
 
-require('utils.backdrops')
-   :scan_images_dir()
-   :random()
-
 require('events.tab-title').setup()
+require('events.right-status').setup()
 require('events.gui-startup').setup()
 
 return Config:init()
