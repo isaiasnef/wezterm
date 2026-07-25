@@ -14,6 +14,7 @@
 - **Modificadores portátiles** — Atajos consistentes entre macOS, Windows y Linux.
 - **Tablas de teclas persistentes** — Modos `resize_font` y `resize_pane` sin timeout.
 - **Pestañas transparentes** — `active_titlebar_bg = 'none'` para efecto uniforme.
+- **Shell Fish + Pure** — Prompt minimalista con colores ámbar/dorado.
 - **Hyperlinks automáticos** — Detección de URLs en múltiples formatos.
 
 ---
@@ -104,6 +105,49 @@ Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).
 
 ---
 
+### Shell (Fish + Pure)
+
+Fish es el shell predeterminado de esta configuración con el tema **Pure** y colores ámbar/dorado que combinan con las pestañas activas (`#ae8b2d`).
+
+#### Instalación de Fish
+
+| Plataforma | Comando |
+|---|---|
+| **macOS** | `brew install fish` |
+| **Linux (Debian/Ubuntu)** | `sudo apt install fish` |
+| **Linux (Arch)** | `sudo pacman -S fish` |
+| **Linux (Fedora)** | `sudo dnf install fish` |
+| **Windows** | `winget install Fish.Fish` o `scoop install fish` |
+
+#### Tema Pure + Oh My Fish
+
+```sh
+# Instalar Oh My Fish
+curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+
+# Instalar y activar tema Pure
+omf install pure
+omf theme pure
+
+# Colores dorado/ámbar (coincide con pestañas activas)
+set -U pure_color_primary "ae8b2d"
+set -U pure_color_current_directory "ae8b2d"
+set -U pure_color_prompt_on_success "ae8b2d"
+set -U pure_color_success "ae8b2d"
+set -U pure_color_info "fab387"
+set -U pure_color_mute "9ca0b0"
+set -U pure_color_danger "d35c5c"
+set -U pure_color_warning "e5c07b"
+set -U pure_color_prompt_on_error "d35c5c"
+
+# Configurar como default_prog en WezTerm (macOS/Linux)
+# fish -l
+```
+
+> **Nota:** Si cambiaste de tema y quieres volver a Pure, ejecuta `omf theme pure`.
+
+---
+
 ### Estructura del proyecto
 
 ```
@@ -132,20 +176,70 @@ Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).
 
 ### Instalación
 
-1. Clona el repositorio:
-   ```sh
-   git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
-   ```
+#### macOS
 
-2. **(Opcional)** Ajusta las rutas de shell en `config/launch.lua` según tu sistema.
+```sh
+# 1. Instalar WezTerm
+brew install --cask wezterm
 
-3. **(Opcional)** Ajusta los dominios en `config/domains.lua`.
+# 2. Nerd Font (requerida para glifos)
+brew install --cask font-jetbrains-mono-nerd-font
 
-4. ¡Listo! 🎉
+# 3. Clonar configuración
+git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
 
-**Requisitos:**
-- WezTerm `20240127-113634-bbcac864` o superior
-- [JetBrainsMono Nerd Font](https://www.nerdfonts.com/) (instalar con `brew install --cask font-jetbrains-mono-nerd-font` en macOS)
+# 4. Instalar Fish (recomendado)
+brew install fish
+```
+
+#### Linux
+
+```sh
+# 1. Instalar WezTerm (descargar .deb/.rpm/.AppImage desde https://wezterm.org)
+#    o vía gestor de paquetes si está disponible
+
+# 2. Nerd Font
+#    Descargar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
+
+# 3. Clonar configuración
+git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
+
+# 4. Instalar Fish
+sudo apt install fish          # Debian/Ubuntu
+sudo pacman -S fish            # Arch
+sudo dnf install fish          # Fedora
+```
+
+#### Windows
+
+```powershell
+# 1. Instalar WezTerm
+winget install wezterm
+
+# 2. Nerd Font
+#    Descargar e instalar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
+
+# 3. Clonar configuración
+git clone https://github.com/isaiasnef/wezterm.git $env:USERPROFILE\.config\wezterm
+
+# 4. Ajustes necesarios
+#    - Editar config\launch.lua: cambiar default_prog a 'powershell' o 'pwsh'
+#    - Editar config\domains.lua: cambiar 'kevin' por tu usuario de Windows
+```
+
+#### Post-instalación (todas las plataformas)
+
+```sh
+# Configurar Fish + Pure (ver sección "Shell (Fish + Pure)" arriba)
+curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+omf install pure
+omf theme pure
+```
+
+> **Requisitos:**
+> - WezTerm `20240127-113634-bbcac864` o superior
+> - [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)
+> - Fish shell `≥3.x` (recomendado)
 
 ---
 
