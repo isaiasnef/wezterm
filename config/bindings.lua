@@ -23,6 +23,10 @@ end
 --   - No PageUp/PageDown; replaced by SUPER+SHIFT+u/d.
 --   - Splits on 'v' (vertical divider) and 'h' (horizontal divider).
 --
+-- On Win/Linux, Alt = SUPER, but fish also uses Alt for word jumps and editing
+-- (Alt+f = forward-word, Alt+d = kill-word, etc.). To avoid conflict, these
+-- specific keys use SUPER_REV (Alt+Ctrl) instead of SUPER (Alt) on Win/Linux.
+local mod_fish_safe = (platform.is_win or platform.is_linux) and mod.SUPER_REV or mod.SUPER
 --
 -- Split naming (WezTerm API):
 --   SplitHorizontal -> panes side-by-side (vertical divider) -> 'v'
@@ -35,10 +39,10 @@ local keys = {
    -- font size (letter keys: k/j/r — direct on all keyboard layouts) --
    { key = 'k', mods = mod.SUPER, action = act.IncreaseFontSize },
    { key = 'j', mods = mod.SUPER, action = act.DecreaseFontSize },
-   { key = 'r', mods = mod.SUPER, action = act.ResetFontSize },
+   { key = 'r', mods = mod_fish_safe, action = act.ResetFontSize },
 
    -- search --
-   { key = 'f', mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
+   { key = 'f', mods = mod_fish_safe, action = act.Search({ CaseInSensitiveString = '' }) },
 
    -- open url --
    {
@@ -62,7 +66,7 @@ local keys = {
    },
 
    -- cursor movement (no arrow keys; arrows require Fn on 60% keyboards) --
-   { key = 'Backspace', mods = mod.SUPER, action = act.SendString('\u{15}') },
+   { key = 'Backspace', mods = mod_fish_safe, action = act.SendString('\u{15}') },
 
    -- copy/paste --
    { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo('Clipboard') },
@@ -137,10 +141,10 @@ local keys = {
    },
 
    -- panes: scroll (no PageUp/PageDown; requires Fn on 60% keyboards) --
-   { key = 'u', mods = mod.SUPER,            action = act.ScrollByLine(-5) },
-   { key = 'd', mods = mod.SUPER,            action = act.ScrollByLine(5) },
-   { key = 'u', mods = mod.SUPER .. '|SHIFT', action = act.ScrollByPage(-0.75) },
-   { key = 'd', mods = mod.SUPER .. '|SHIFT', action = act.ScrollByPage(0.75) },
+   { key = 'u', mods = mod_fish_safe,            action = act.ScrollByLine(-5) },
+   { key = 'd', mods = mod_fish_safe,            action = act.ScrollByLine(5) },
+   { key = 'u', mods = mod_fish_safe .. '|SHIFT', action = act.ScrollByPage(-0.75) },
+   { key = 'd', mods = mod_fish_safe .. '|SHIFT', action = act.ScrollByPage(0.75) },
 
    -- LEADER one-shot actions --
    -- Replaces F1-F12 (conflict with macOS system shortcuts on 60% keyboards).
