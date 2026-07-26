@@ -23,7 +23,8 @@
 
 Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plataforma.
 
-> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.
+> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.  
+> En **Windows/Linux**, las teclas `f`, `r`, `u`, `d`, `Backspace` usan `Alt+Ctrl` en vez de `Alt` para no conflictuar con atajos de fish (avanzar palabra, kill-word, etc.).
 
 #### Convención de modificadores
 
@@ -39,10 +40,10 @@ Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plata
 |---|---|---|---|
 | Aumentar fuente | `Cmd` + `k` | `Alt` + `k` | `Alt` + `k` |
 | Disminuir fuente | `Cmd` + `j` | `Alt` + `j` | `Alt` + `j` |
-| Restablecer fuente | `Cmd` + `r` | `Alt` + `r` | `Alt` + `r` |
-| Buscar texto | `Cmd` + `f` | `Alt` + `f` | `Alt` + `f` |
+| Restablecer fuente | `Cmd` + `r` | `Alt` + `Ctrl` + `r` | `Alt` + `Ctrl` + `r` |
+| Buscar texto | `Cmd` + `f` | `Alt` + `Ctrl` + `f` | `Alt` + `Ctrl` + `f` |
 | Abrir URL bajo cursor | `Cmd` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` |
-| Limpiar línea | `Cmd` + `Backspace` | `Alt` + `Backspace` | `Alt` + `Backspace` |
+| Limpiar línea | `Cmd` + `Backspace` | `Alt` + `Ctrl` + `Backspace` | `Alt` + `Ctrl` + `Backspace` |
 | Copiar | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` |
 | Pegar | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` |
 | Abrir enlace | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo |
@@ -68,8 +69,8 @@ Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plata
 | Cerrar panel | `Cmd` + `w` | `Alt` + `w` |
 | Navegar panes (vim-style) | `Cmd` + `Ctrl` + `h`/`j`/`k`/`l` | `Alt` + `Ctrl` + `h`/`j`/`k`/`l` |
 | Intercambiar panel | `Cmd` + `Ctrl` + `p` | `Alt` + `Ctrl` + `p` |
-| Desplazar 5 líneas | `Cmd` + `u` / `d` | `Alt` + `u` / `d` |
-| Desplazar página | `Cmd` + `Shift` + `u` / `d` | `Alt` + `Shift` + `u` / `d` |
+| Desplazar 5 líneas | `Cmd` + `u` / `d` | `Alt` + `Ctrl` + `u` / `d` |
+| Desplazar página | `Cmd` + `Shift` + `u` / `d` | `Alt` + `Ctrl` + `Shift` + `u` / `d` |
 
 #### Ventanas
 
