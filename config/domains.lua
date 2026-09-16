@@ -1,3 +1,4 @@
+local wezterm = require('wezterm')
 local platform = require('utils.platform')
 
 ---@type Config
@@ -13,33 +14,9 @@ local options = {
 }
 
 if platform.is_win then
-   options.ssh_domains = {
-      {
-         name = 'ssh:wsl',
-         username = 'kevin',
-         remote_address = 'localhost',
-         multiplexing = 'None',
-         default_prog = { 'fish', '-l' },
-         assume_shell = 'Posix',
-      },
-   }
-
-   options.wsl_domains = {
-      {
-         name = 'wsl:ubuntu-fish',
-         distribution = 'Ubuntu',
-         username = 'kevin',
-         default_cwd = '/home/kevin',
-         default_prog = { 'fish', '-l' },
-      },
-      {
-         name = 'wsl:ubuntu-bash',
-         distribution = 'Ubuntu',
-         username = 'kevin',
-         default_cwd = '/home/kevin',
-         default_prog = { 'bash', '-l' },
-      },
-   }
+   -- Autodetectar dominios WSL disponibles en lugar de forzar usuarios o distros fijas
+   local default_wsl_domains = wezterm.default_wsl_domains()
+   options.wsl_domains = default_wsl_domains
 end
 
 return options

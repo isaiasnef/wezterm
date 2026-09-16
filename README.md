@@ -1,397 +1,149 @@
-<h2 align="center">My WezTerm Config</h2>
+# Configuración de WezTerm Multiplataforma
 
-<p align="center">
-  <a href="https://github.com/KevinSilvester/wezterm-config/stargazers">
-    <img alt="Stargazers" src="https://img.shields.io/github/stars/KevinSilvester/wezterm-config?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41">
-  </a>
-  <a href="https://github.com/KevinSilvester/wezterm-config/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/KevinSilvester/wezterm-config?style=for-the-badge&logo=gitbook&color=B5E8E0&logoColor=D9E0EE&labelColor=302D41">
-  </a>
-  <a href="https://github.com/KevinSilvester/wezterm-config/actions/workflows/lint.yml">
-    <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/KevinSilvester/wezterm-config/lint.yml?&style=for-the-badge&logo=githubactions&label=CI&color=A6E3A1&logoColor=D9E0EE&labelColor=302D41">
-  </a>
-</p>
-
-![screenshot](./.github/screenshots/demo-2.gif)
+Configuración modular de [WezTerm](https://wezfurlong.org/wezterm/) optimizada para funcionar de forma transparente y sin ajustes manuales en **Linux**, **macOS** y **Windows (nativo o WSL)**.
 
 ---
 
-### Features
+## Características Principales
 
-- [**Background Image Selector**](https://github.com/KevinSilvester/wezterm-config/blob/master/utils/backdrops.lua)
-
-  - Cycle images
-  - Fuzzy search for image
-  - Toggle background image
-
-  > See: [key bindings](#background-images) for usage
-
-- [**GPU Adapter Selector**](https://github.com/KevinSilvester/wezterm-config/blob/master/utils/gpu_adapter.lua)
-
-  > :bulb: Only works if the [`front_end`](https://github.com/KevinSilvester/wezterm-config/blob/master/config/appearance.lua#L8) option is set to `WebGpu`.
-
-  A small utility to select the best GPU + Adapter (graphics API) combo for your machine.
-
-  GPU + Adapter combo is selected based on the following criteria:
-
-  1.  <details>
-      <summary>Best GPU available</summary>
-
-      `Discrete` > `Integrated` > `Other` (for `wgpu`'s OpenGl implementation on Discrete GPU) > `Cpu`
-      </details>
-
-  2.  <details>
-      <summary>Best graphics API available (based off my very scientific scroll a big log file in Neovim test 😁)</summary>
-
-      > :bulb:<br>
-      > The available graphics API choices change based on your OS.<br>
-      > These options correspond to the APIs the `wgpu` crate (which powers WezTerm's gui in `WebGpu` mode)<br>
-      > currently has support implemented for.<br>
-      > See: <https://github.com/gfx-rs/wgpu#supported-platforms> for more info
-
-      - Windows: `Dx12` > `Vulkan` > `OpenGl`
-      - Linux: `Vulkan` > `OpenGl`
-      - Mac: `Metal`
-
-      </details>
+- **Atajos Portables y Tradicionales**: Sin conflictos con comandos de terminal o atajos del sistema operativo.
+  - En **Linux / Windows**: `Ctrl + Shift` para operaciones de terminal y `Alt` simple libre para shells (`bash`, `zsh`, `fish`, readline).
+  - En **macOS**: `Cmd (Super)` tradicional de macOS.
+- **Independiente de la distribución de teclado**: Se eliminaron caracteres especiales (`\`, `[`, `]`, `/`, etc.) para garantizar compatibilidad con teclados en español, inglés o cualquier distribución ISO/ANSI.
+- **Leader Key Ergonómico (`Ctrl + a`)**: Acceso rápido a tablas modales para redimensionar paneles, fuentes, intercambiar paneles y controlar fondos de pantalla.
+- **Redimensión y Reubicación de Paneles**: Modo interactivo con ajuste visible de 3 celdas (flechas o `hjkl`) y selector visual para intercambiar posiciones de splits (`Swap`).
+- **Reorganización de Pestañas**: Desplazamiento relativo de pestañas hacia la izquierda o derecha con `Ctrl + Shift + PageUp / PageDown`.
+- **Selector de Fondos**: Cambio cíclico o búsqueda difusa de fondos de pantalla incluidos en `backdrops/`.
+- **Detección Automática de Shells y WSL**: Sin rutas hardcodeadas ni nombres de usuario fijos.
 
 ---
 
-### Getting Started
+## Requisitos e Instalación
 
-- #### Requirements:
+1. **Instalar WezTerm**:
+   - **Linux**: Ver instrucciones según distribución en [wezfurlong.org/wezterm/install/linux.html](https://wezfurlong.org/wezterm/install/linux.html).
+   - **macOS**: `brew install --cask wezterm`
+   - **Windows**: `winget install wez.wezterm` o `choco install wezterm -y`
 
-  - <details>
-      <summary><b>WezTerm</b></summary>
+2. **Tipografía recomendada**:
+   - `JetBrainsMono Nerd Font` (o cualquier Nerd Font equivalente).
 
-    Minimum Version: `20240127-113634-bbcac864`<br>
-    Recommended Version: [`Nightly`](https://github.com/wez/wezterm/releases/nightly)
-
-    [Official Installation Page](https://wezfurlong.org/wezterm/installation.html)
-
-    **Windows**
-
-    - <details>
-      <summary>Install Stable</summary>
-
-      - Install with Scoop (non-portable)
-
-        ```sh
-        scoop bucket add extras
-        scoop install wezterm
-        ```
-
-      - Install with Scoop (portable)
-
-        ```sh
-        scoop bucket add k https://github.com/KevinSilvester/scoop-bucket
-        scoop install k/wezterm
-        ```
-
-      - Install with winget
-
-        ```sh
-        winget install wez.wezterm
-        ```
-
-      - Install with choco
-
-        ```sh
-        choco install wezterm -y
-        ```
-      </details>
-
-    - <details>
-      <summary>Install Nightly</summary>
-
-      - Install with Scoop (non-portable)
-
-        ```sh
-        scoop bucket add versions
-        scoop install wezterm-nightly
-        ```
-
-      - Install with Scoop (portable)
-
-        ```sh
-        scoop bucket add k https://github.com/KevinSilvester/scoop-bucket
-        scoop install k/wezterm-nightly
-        ```
-      </details>
-
-    > :bulb:<br>
-    > Toast notifications don't work in non-portable installations.<br>
-    > See issue <https://github.com/wez/wezterm/issues/5166> for more details
-
-    ---
-
-    **MacOS**
-
-    - <details>
-      <summary>Install Stable</summary>
-
-      - Install with Homebrew
-
-        ```sh
-        brew install --cask wezterm
-        ```
-
-      - Install with MacPort
-
-        ```sh
-        sudo port selfupdate
-        sudo port install wezterm
-        ```
-      </details>
-
-    - <details>
-      <summary>Install Nighlty</summary>
-
-      - Install with Homebrew
-
-        ```sh
-        brew install --cask wezterm@nightly
-        ```
-
-      - Upgrade with Homebrew
-
-        ```sh
-        brew install --cask wezterm@nightly --no-quarantine --greedy-latest
-        ```
-      </details>
-
-    ---
-
-    **Linux**
-
-    Refer to the Linux installation page.<br>
-    <https://wezfurlong.org/wezterm/install/linux.html>
-
-    </details>
-
-  - <details>
-    <summary>JetBrainsMono Nerd Font</summary>
-
-    Install with Homebrew (Macos)
-
-    ```sh
-    brew install --cask font-jetbrains-mono-nerd-font
-    ```
-
-    Install with Scoop (Windows)
-
-    ```sh
-    scoop bucket add nerd-fonts
-    scoop install JetBrainsMono-NF
-    ```
-
-    > More Info:
-    >
-    > - <https://www.nerdfonts.com/#home>
-    > - <https://github.com/ryanoasis/nerd-fonts?#font-installation>
-    </details/>
-
-&nbsp;
-
-- #### Steps:
-
-  1.  ```sh
-      # On Windows and Unix systems
-      git clone https://github.com/KevinSilvester/wezterm-config.git ~/.config/wezterm
-      ```
-  2.  Update `launch` and `domain` related option:
-      - [./config/launch.lua](./config/launch.lua) for preferred shells and its paths
-      - [./config/domains.lua](./config/domains.lua) for custom SSH/WSL domains
-  3.  And Done!!! 🎉🎉
-
-&nbsp;
-
-- #### Optional But Useful:
-
-  - [**`wezterm-types`**](https://github.com/DrKJeff16/wezterm-types): **Highly** recommend setting this up for type completion and inline 
-  documentation of every configuration option, events and actions method signatures, etc. Includes type definitions for some popular Wezterm plugins as well.
+3. **Clonar este repositorio**:
+   ```bash
+   git clone https://github.com/KevinSilvester/wezterm-config.git ~/.config/wezterm
+   ```
 
 ---
 
-### All Key Bindings
+## Tabla Completa de Atajos de Teclado
 
-Most of the key bindings revolve around a <kbd>SUPER</kbd> and <kbd>SUPER_REV</kbd>(super reversed) keys.<br>
+### Convención de Teclas Modificadoras
 
-- On MacOs:
-  - <kbd>SUPER</kbd> ⇨ <kbd>Super</kbd>
-  - <kbd>SUPER_REV</kbd> ⇨ <kbd>Super</kbd>+<kbd>Ctrl</kbd>
-- On Windows and Linux
-  - <kbd>SUPER</kbd> ⇨ <kbd>Alt</kbd>
-  - <kbd>SUPER_REV</kbd> ⇨ <kbd>Alt</kbd>+<kbd>Ctrl</kbd>
-
-> To avoid confusion when switching between different OS and to avoid conflicting<br>
-> with OS's built-in keyboard shortcuts.
-
-- On all platforms: <kbd>LEADER</kbd> ⇨ <kbd>SUPER_REV</kbd>+<kbd>Space</kbd>
-
-#### Miscellaneous/Useful
-
-| Keys                              | Action                                      |
-| --------------------------------- | ------------------------------------------- |
-| <kbd>F1</kbd>                     | `ActivateCopyMode`                          |
-| <kbd>F2</kbd>                     | `ActivateCommandPalette`                    |
-| <kbd>F3</kbd>                     | `ShowLauncher`                              |
-| <kbd>F4</kbd>                     | `ShowLauncher` <sub>(tabs only)</sub>       |
-| <kbd>F5</kbd>                     | `ShowLauncher` <sub>(workspaces only)</sub> |
-| <kbd>F11</kbd>                    | `ToggleFullScreen`                          |
-| <kbd>F12</kbd>                    | `ShowDebugOverlay`                          |
-| <kbd>SUPER</kbd>+<kbd>f</kbd>     | Search Text                                 |
-| <kbd>SUPER_REV</kbd>+<kbd>u</kbd> | Open URL                                    |
-
-&nbsp;
-
-#### Copy+Paste
-
-| Keys                                          | Action               |
-| --------------------------------------------- | -------------------- |
-| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>c</kbd> | Copy to Clipboard    |
-| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>v</kbd> | Paste from Clipboard |
-
-&nbsp;
-
-#### Cursor Movements
-
-| Keys                                   | Action                                                     |
-| -------------------------------------- | ---------------------------------------------------------- |
-| <kbd>SUPER</kbd>+<kbd>LeftArrow</kbd>  | Move cursor to Line Start                                  |
-| <kbd>SUPER</kbd>+<kbd>RightArrow</kbd> | Move cursor to Line End                                    |
-| <kbd>SUPER</kbd>+<kbd>Backspace</kbd>  | Clear Line <sub>(does not work in PowerShell or cmd)</sub> |
-
-&nbsp;
-
-#### Tabs
-
-##### Tabs: Spawn+Close
-
-| Keys                              | Action                                |
-| --------------------------------- | ------------------------------------- |
-| <kbd>SUPER</kbd>+<kbd>t</kbd>     | `SpawnTab` <sub>(DefaultDomain)</sub> |
-| <kbd>SUPER_REV</kbd>+<kbd>t</kbd> | `SpawnTab` <sub>(WSL:Ubuntu)</sub>    |
-| <kbd>SUPER_REV</kbd>+<kbd>w</kbd> | `CloseCurrentTab`                     |
-
-##### Tabs: Navigation
-
-| Keys                              | Action         |
-| --------------------------------- | -------------- |
-| <kbd>SUPER</kbd>+<kbd>[</kbd>     | Next Tab       |
-| <kbd>SUPER</kbd>+<kbd>]</kbd>     | Previous Tab   |
-| <kbd>SUPER_REV</kbd>+<kbd>[</kbd> | Move Tab Left  |
-| <kbd>SUPER_REV</kbd>+<kbd>]</kbd> | Move Tab Right |
-
-##### Tabs: Toggle Tab-bar
-
-| Keys                          | Action         |
-| ----------------------------- | -------------- |
-| <kbd>SUPER</kbd>+<kbd>9</kbd> | Toggle tab bar |
-
-##### Tabs: Title
-
-| Keys                              | Action             |
-| --------------------------------- | ------------------ |
-| <kbd>SUPER</kbd>+<kbd>0</kbd>     | Rename Current Tab |
-| <kbd>SUPER_REV</kbd>+<kbd>0</kbd> | Undo Rename        |
-
-&nbsp;
-
-#### Windows
-
-| Keys                          | Action                                                             |
-| ----------------------------- | ------------------------------------------------------------------ |
-| <kbd>SUPER</kbd>+<kbd>n</kbd> | `SpawnWindow`                                                      |
-| <kbd>SUPER</kbd>+<kbd>=</kbd> | Increase Window Size <sub>(disabled on Windows due to a bug)</sub> |
-| <kbd>SUPER</kbd>+<kbd>-</kbd> | Decrease Window Size <sub>(disabled on Windows due to a bug)</sub> |
-
-&nbsp;
-
-#### Panes
-
-##### Panes: Split Panes
-
-| Keys                               | Action                                           |
-| ---------------------------------- | ------------------------------------------------ |
-| <kbd>SUPER</kbd>+<kbd>\\</kbd>     | `SplitVertical` <sub>(CurrentPaneDomain)</sub>   |
-| <kbd>SUPER_REV</kbd>+<kbd>\\</kbd> | `SplitHorizontal` <sub>(CurrentPaneDomain)</sub> |
-
-##### Panes: Zoom+Close Pane
-
-| Keys                              | Action                |
-| --------------------------------- | --------------------- |
-| <kbd>SUPER</kbd>+<kbd>Enter</kbd> | `TogglePaneZoomState` |
-| <kbd>SUPER</kbd>+<kbd>w</kbd>     | `CloseCurrentPane`    |
-
-##### Panes: Navigation
-
-| Keys                              | Action                  |
-| --------------------------------- | ----------------------- |
-| <kbd>SUPER_REV</kbd>+<kbd>k</kbd> | Move to Pane (Up)       |
-| <kbd>SUPER_REV</kbd>+<kbd>j</kbd> | Move to Pane (Down)     |
-| <kbd>SUPER_REV</kbd>+<kbd>h</kbd> | Move to Pane (Left)     |
-| <kbd>SUPER_REV</kbd>+<kbd>l</kbd> | Move to Pane (Right)    |
-| <kbd>SUPER_REV</kbd>+<kbd>p</kbd> | Swap with selected Pane |
-
-##### Panes: Scroll Pane
-
-| Keys                          | Action                               |
-| ----------------------------- | ------------------------------------ |
-| <kbd>SUPER</kbd>+<kbd>u</kbd> | Scroll Lines up <sub>5 lines</sub>   |
-| <kbd>SUPER</kbd>+<kbd>d</kbd> | Scroll Lines down <sub>5 lines</sub> |
-| <kbd>PageUp</kbd>             | Scroll Page up                       |
-| <kbd>PageDown</kbd>           | Scroll Page down                     |
-
-&nbsp;
-
-#### Background Images
-
-| Keys                              | Action                       |
-| --------------------------------- | ---------------------------- |
-| <kbd>SUPER</kbd>+<kbd>/</kbd>     | Select Random Image          |
-| <kbd>SUPER</kbd>+<kbd>,</kbd>     | Cycle to next Image          |
-| <kbd>SUPER</kbd>+<kbd>.</kbd>     | Cycle to previous Image      |
-| <kbd>SUPER_REV</kbd>+<kbd>/</kbd> | Fuzzy select Image           |
-| <kbd>SUPER</kbd>+<kbd>b</kbd>     | Toggle background focus mode |
-
-&nbsp;
-
-#### Key Tables
-
-> See: <https://wezfurlong.org/wezterm/config/key-tables.html>
-
-| Keys                           | Action        |
-| ------------------------------ | ------------- |
-| <kbd>LEADER</kbd>+<kbd>f</kbd> | `resize_font` |
-| <kbd>LEADER</kbd>+<kbd>p</kbd> | `resize_pane` |
-
-##### Key Table: `resize_font`
-
-| Keys           | Action                          |
-| -------------- | ------------------------------- |
-| <kbd>k</kbd>   | `IncreaseFontSize`              |
-| <kbd>j</kbd>   | `DecreaseFontSize`              |
-| <kbd>r</kbd>   | `ResetFontSize`                 |
-| <kbd>q</kbd>   | `PopKeyTable` <sub>(exit)</sub> |
-| <kbd>Esc</kbd> | `PopKeyTable` <sub>(exit)</sub> |
-
-##### Key Table: `resize_pane`
-
-| Keys           | Action                                         |
-| -------------- | ---------------------------------------------- |
-| <kbd>k</kbd>   | `AdjustPaneSize` <sub>(Direction: Up)</sub>    |
-| <kbd>j</kbd>   | `AdjustPaneSize` <sub>(Direction: Down)</sub>  |
-| <kbd>h</kbd>   | `AdjustPaneSize` <sub>(Direction: Left)</sub>  |
-| <kbd>l</kbd>   | `AdjustPaneSize` <sub>(Direction: Right)</sub> |
-| <kbd>q</kbd>   | `PopKeyTable` <sub>(exit)</sub>                |
-| <kbd>Esc</kbd> | `PopKeyTable` <sub>(exit)</sub>                |
+| Modificador en esta guía | Linux / Windows | macOS |
+| ------------------------ | --------------- | ----- |
+| **Principal**            | `Ctrl + Shift`  | `Cmd` |
+| **Principal + Secundario** | `Ctrl + Alt`  | `Cmd + Shift` |
+| **Pestañas por Número**  | `Alt + [1-8]`   | `Cmd + [1-8]` |
+| **Leader Key**           | `Ctrl + a`      | `Ctrl + a` |
 
 ---
 
-### References/Inspirations
+### Pestañas (Tabs)
 
-- <https://github.com/rxi/lume>
-- <https://github.com/catppuccin/wezterm>
-- <https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614>
-- <https://github.com/wez/wezterm/discussions/628#discussioncomment-5942139>
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Nueva pestaña** | `Ctrl + Shift + t` | `Cmd + t` |
+| **Cerrar pestaña activa** | `Ctrl + Shift + w` | `Cmd + w` |
+| **Pestaña siguiente** | `Ctrl + Tab` | `Ctrl + Tab` |
+| **Pestaña anterior** | `Ctrl + Shift + Tab` | `Ctrl + Shift + Tab` |
+| **Mover pestaña a la izquierda** | `Ctrl + Shift + PageUp` | `Ctrl + Shift + PageUp` |
+| **Mover pestaña a la derecha** | `Ctrl + Shift + PageDown` | `Ctrl + Shift + PageDown` |
+| **Ir a pestaña específica (1 al 8)** | `Alt + 1` .. `Alt + 8` | `Cmd + 1` .. `Cmd + 8` |
+| **Ir a última pestaña** | `Alt + 9` | `Cmd + 9` |
+| **Renombrar pestaña** | `Ctrl + a` seguido de `t` | `Ctrl + a` seguido de `t` |
+| **Restablecer nombre de pestaña** | `Ctrl + a` seguido de `Shift + t` | `Ctrl + a` seguido de `Shift + t` |
+| **Ocultar / Mostrar barra de pestañas** | `F9` o `Ctrl + a` seguido de `z` | `F9` o `Ctrl + a` seguido de `z` |
+
+---
+
+### Paneles (Panes)
+
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Dividir horizontalmente** | `Ctrl + Shift + d` | `Cmd + d` |
+| **Dividir verticalmente** | `Ctrl + Shift + e` | `Cmd + e` |
+| **Cerrar panel activo** | `Ctrl + Shift + x` | `Cmd + x` |
+| **Maximizar / Restaurar panel (Zoom)** | `Ctrl + Shift + Enter` | `Cmd + Enter` |
+| **Intercambiar / Reubicar panel (Swap)** | `Ctrl + a` seguido de `w` | `Ctrl + a` seguido de `w` |
+| **Moverse al panel superior** | `Ctrl + Alt + k` | `Cmd + Shift + k` |
+| **Moverse al panel inferior** | `Ctrl + Alt + j` | `Cmd + Shift + j` |
+| **Moverse al panel izquierdo** | `Ctrl + Alt + h` | `Cmd + Shift + h` |
+| **Moverse al panel derecho** | `Ctrl + Alt + l` | `Cmd + Shift + l` |
+
+---
+
+### Utilidades y Portapapeles
+
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Copiar al portapapeles** | `Ctrl + Shift + c` | `Cmd + c` o `Ctrl + Shift + c` |
+| **Pegar desde el portapapeles** | `Ctrl + Shift + v` | `Cmd + v` o `Ctrl + Shift + v` |
+| **Buscar texto** | `Ctrl + Shift + f` | `Cmd + f` |
+| **Abrir enlaces/URLs en pantalla** | `Ctrl + Shift + u` | `Cmd + u` |
+| **Paleta de comandos** | `F2` o `Ctrl + Shift + p` | `F2` o `Cmd + p` |
+| **Modo copia (Copy Mode)** | `F1` | `F1` |
+| **Lanzador de pestañas / dominios** | `F3` | `F3` |
+| **Pantalla completa** | `F11` | `F11` |
+| **Depuración (Debug Overlay)** | `F12` | `F12` |
+
+---
+
+### Atajos con Leader Key (`Ctrl + a`)
+
+Presiona `Ctrl + a`, suelta ambas teclas y luego presiona la letra correspondiente:
+
+| Tecla tras Leader | Acción |
+| ----------------- | ------ |
+| `a` | Envía `Ctrl + a` literal a la shell (ej. mover el cursor al inicio de la línea). |
+| `r` | Entra al modo de **Redimensionar Paneles** (ajuste de 3 celdas con `Flechas` o `h`,`j`,`k`,`l`; timeout de 2.5s; sal con `Esc` o `q`). |
+| `w` | Abre el selector visual (`PaneSelect`) para intercambiar la posición del panel activo con otro. |
+| `t` | Abre diálogo para renombrar la pestaña activa manualmente. |
+| `Shift + t` (`T`) | Restablece el nombre automático de la pestaña. |
+| `z` | Oculta o muestra la barra de pestañas (equivalente a `F9`). |
+| `f` | Entra al modo de **Tamaño de Fuente** (`k` aumenta, `j` reduce, `r` restablece; sal con `Esc` o `q`). |
+| `b` | Alterna el enfoque/opacidad del fondo de pantalla. |
+| `n` | Cambia al siguiente fondo de pantalla. |
+| `p` | Cambia al fondo de pantalla anterior. |
+| `s` | Abre el menú difuso de selección de fondos (`InputSelector`). |
+
+---
+
+## Guía de Verificación Manual
+
+Para verificar rápidamente la correcta instalación y funcionamiento en cualquier equipo:
+
+1. **Prueba de inicio**:
+   - Inicia WezTerm. Verifica que no aparezcan alertas rojas de error de Lua al arrancar.
+   - Presiona `F12` para abrir la consola de depuración y confirma que no haya excepciones reportadas.
+2. **Prueba de Pestañas y Reubicación**:
+   - Presiona `Ctrl + Shift + t` (en macOS `Cmd + t`) para abrir 2 o 3 pestañas adicionales.
+   - Navega secuencialmente con `Ctrl + Tab` y `Ctrl + Shift + Tab`.
+   - Navega directamente usando `Alt + 1`, `Alt + 2`, etc. (en macOS `Cmd + 1`, `Cmd + 2`).
+   - Mueve una pestaña a la izquierda con `Ctrl + Shift + PageUp` y a la derecha con `Ctrl + Shift + PageDown`.
+   - Renombra la pestaña con `Ctrl + a` y luego `t`. Escribe un nombre y presiona Enter.
+   - Restablece el nombre automático presionando `Ctrl + a` y luego `Shift + t`.
+   - Alterna la barra de pestañas presionando `F9` o `Ctrl + a` y luego `z`.
+   - Cierra una pestaña con `Ctrl + Shift + w` (en macOS `Cmd + w`).
+3. **Prueba de Paneles (Splits), Redimensión y Swap**:
+   - Divide horizontalmente con `Ctrl + Shift + d` (en macOS `Cmd + d`).
+   - Divide verticalmente con `Ctrl + Shift + e` (en macOS `Cmd + e`).
+   - Presiona `Ctrl + a` y luego `r`: pulsa las `Flechas` o `h`, `j`, `k`, `l` para verificar el cambio de tamaño inmediato y visible (3 celdas). Sal con `Esc`.
+   - Presiona `Ctrl + a` y luego `w`: aparecerán números sobre cada panel; presiona el número de otro panel para intercambiar sus posiciones de inmediato.
+   - Maximiza y restaura el panel con `Ctrl + Shift + Enter` (en macOS `Cmd + Enter`).
+   - Cierra el panel con `Ctrl + Shift + x` (en macOS `Cmd + x`).
+4. **Prueba de Shell / Readline (Linux / Windows)**:
+   - Escribe un comando largo en tu shell (ej. `echo palabra1 palabra2 palabra3`).
+   - Presiona `Alt + b` y `Alt + f` para retroceder y avanzar entre palabras. Confirma que la shell responde y WezTerm no intercepta la tecla.
+5. **Prueba de Leader Key (`Ctrl + a`)**:
+   - Presiona `Ctrl + a` seguido de `a` en la shell: el cursor debe moverse al inicio de la línea.
+   - Presiona `Ctrl + a` seguido de `n` o `s` para interactuar con los fondos de pantalla.
