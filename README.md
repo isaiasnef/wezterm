@@ -1,253 +1,397 @@
-<h2 align="center">Configuración de WezTerm</h2>
+<h2 align="center">My WezTerm Config</h2>
 
 <p align="center">
-  <img alt="WezTerm" src="https://img.shields.io/badge/WezTerm-20240127%2B-8CA2D6?style=for-the-badge&logo=windowsterminal&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41">
+  <a href="https://github.com/KevinSilvester/wezterm-config/stargazers">
+    <img alt="Stargazers" src="https://img.shields.io/github/stars/KevinSilvester/wezterm-config?style=for-the-badge&logo=starship&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41">
+  </a>
+  <a href="https://github.com/KevinSilvester/wezterm-config/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/KevinSilvester/wezterm-config?style=for-the-badge&logo=gitbook&color=B5E8E0&logoColor=D9E0EE&labelColor=302D41">
+  </a>
+  <a href="https://github.com/KevinSilvester/wezterm-config/actions/workflows/lint.yml">
+    <img alt="Build" src="https://img.shields.io/github/actions/workflow/status/KevinSilvester/wezterm-config/lint.yml?&style=for-the-badge&logo=githubactions&label=CI&color=A6E3A1&logoColor=D9E0EE&labelColor=302D41">
+  </a>
 </p>
 
----
-
-### Características
-
-- **Transparencia / frosted glass** — Opacidad 85 % + blur en macOS.
-- **Selección automática de GPU** — Elige la mejor GPU y API gráfica disponible.
-- **Teclado 60% ISO Español** — Atajos optimizados sin teclas F ni flechas dedicadas.
-- **Modificadores portátiles** — Atajos consistentes entre macOS, Windows y Linux.
-- **Tablas de teclas persistentes** — Modos `resize_font` y `resize_pane` sin timeout.
-- **Pestañas transparentes** — `active_titlebar_bg = 'none'` para efecto uniforme.
-- **Shell Fish + Pure** — Prompt minimalista con colores ámbar/dorado.
-- **Hyperlinks automáticos** — Detección de URLs en múltiples formatos.
+![screenshot](./.github/screenshots/demo-2.gif)
 
 ---
 
-### Atajos de teclado
+### Features
 
-Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plataforma.
+- [**Background Image Selector**](https://github.com/KevinSilvester/wezterm-config/blob/master/utils/backdrops.lua)
 
-> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.  
-> En **Windows/Linux**, las teclas `f`, `r`, `u`, `d`, `Backspace` usan `Alt+Ctrl` en vez de `Alt` para no conflictuar con atajos de fish (avanzar palabra, kill-word, etc.).
+  - Cycle images
+  - Fuzzy search for image
+  - Toggle background image
 
-#### Convención de modificadores
+  > See: [key bindings](#background-images) for usage
 
-| Modificador | macOS | Linux | Windows |
-|---|---|---|---|
-| `SUPER` | `Cmd` | `Alt` | `Alt` |
-| `SUPER_REV` | `Cmd`+`Ctrl` | `Alt`+`Ctrl` | `Alt`+`Ctrl` |
-| `LEADER` | `Cmd`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) |
+- [**GPU Adapter Selector**](https://github.com/KevinSilvester/wezterm-config/blob/master/utils/gpu_adapter.lua)
 
-#### Generales
+  > :bulb: Only works if the [`front_end`](https://github.com/KevinSilvester/wezterm-config/blob/master/config/appearance.lua#L8) option is set to `WebGpu`.
 
-| Acción | macOS | Linux | Windows |
-|---|---|---|---|
-| Aumentar fuente | `Cmd` + `k` | `Alt` + `k` | `Alt` + `k` |
-| Disminuir fuente | `Cmd` + `j` | `Alt` + `j` | `Alt` + `j` |
-| Restablecer fuente | `Cmd` + `r` | `Alt` + `Ctrl` + `r` | `Alt` + `Ctrl` + `r` |
-| Buscar texto | `Cmd` + `f` | `Alt` + `Ctrl` + `f` | `Alt` + `Ctrl` + `f` |
-| Abrir URL bajo cursor | `Cmd` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` |
-| Limpiar línea | `Cmd` + `Backspace` | `Alt` + `Ctrl` + `Backspace` | `Alt` + `Ctrl` + `Backspace` |
-| Copiar | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` |
-| Pegar | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` |
-| Abrir enlace | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo |
+  A small utility to select the best GPU + Adapter (graphics API) combo for your machine.
 
-#### Pestañas
+  GPU + Adapter combo is selected based on the following criteria:
 
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Nueva pestaña (default) | `Cmd` + `t` | `Alt` + `t` |
-| Nueva pestaña (WSL Ubuntu) | `Cmd` + `Ctrl` + `t` | `Alt` + `Ctrl` + `t` |
-| Cerrar pestaña | `Cmd` + `Ctrl` + `w` | `Alt` + `Ctrl` + `w` |
-| Pestaña anterior / siguiente | `Cmd` + `[` / `]` | `Alt` + `[` / `]` |
-| Mover pestaña izq. / der. | `Cmd` + `Ctrl` + `[` / `]` | `Alt` + `Ctrl` + `[` / `]` |
-| Ocultar/mostrar barra | `Cmd` + `9` | `Alt` + `9` |
+  1.  <details>
+      <summary>Best GPU available</summary>
 
-#### Paneles (panes)
+      `Discrete` > `Integrated` > `Other` (for `wgpu`'s OpenGl implementation on Discrete GPU) > `Cpu`
+      </details>
 
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Panel horizontal (apilado) | `Cmd` + `Shift` + `h` | `Alt` + `Shift` + `h` |
-| Panel vertical (lado a lado) | `Cmd` + `Shift` + `v` | `Alt` + `Shift` + `v` |
-| Maximizar/restaurar panel | `Cmd` + `Enter` | `Alt` + `Enter` |
-| Cerrar panel | `Cmd` + `w` | `Alt` + `w` |
-| Navegar panes (vim-style) | `Cmd` + `Ctrl` + `h`/`j`/`k`/`l` | `Alt` + `Ctrl` + `h`/`j`/`k`/`l` |
-| Intercambiar panel | `Cmd` + `Ctrl` + `p` | `Alt` + `Ctrl` + `p` |
-| Desplazar 5 líneas | `Cmd` + `u` / `d` | `Alt` + `Ctrl` + `u` / `d` |
-| Desplazar página | `Cmd` + `Shift` + `u` / `d` | `Alt` + `Ctrl` + `Shift` + `u` / `d` |
+  2.  <details>
+      <summary>Best graphics API available (based off my very scientific scroll a big log file in Neovim test 😁)</summary>
 
-#### Ventanas
+      > :bulb:<br>
+      > The available graphics API choices change based on your OS.<br>
+      > These options correspond to the APIs the `wgpu` crate (which powers WezTerm's gui in `WebGpu` mode)<br>
+      > currently has support implemented for.<br>
+      > See: <https://github.com/gfx-rs/wgpu#supported-platforms> for more info
 
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Nueva ventana | `Cmd` + `n` | `Alt` + `n` |
-| Reducir tamaño (-50px) | `Cmd` + `Ctrl` + `s` | `Alt` + `Ctrl` + `s` |
-| Aumentar tamaño (+50px) | `Cmd` + `Ctrl` + `e` | `Alt` + `Ctrl` + `e` |
-| Maximizar ventana | `Cmd` + `Ctrl` + `Enter` | `Alt` + `Ctrl` + `Enter` |
+      - Windows: `Dx12` > `Vulkan` > `OpenGl`
+      - Linux: `Vulkan` > `OpenGl`
+      - Mac: `Metal`
 
-#### Acciones LEADER (una tecla)
-
-Presiona `LEADER` (`Cmd`+`Ctrl`+`a` en macOS / `Alt`+`Ctrl`+`a` en Win/Linux) y luego:
-
-| Tecla | Acción |
-|---|---|
-| `c` | Modo copia |
-| `,` | Paleta de comandos |
-| `Space` | Lanzador |
-| `Enter` | Pantalla completa |
-| `d` | Superposición de depuración |
-| `v` | Panel vertical |
-| `h` | Panel horizontal |
-| `b` | Ocultar/mostrar barra |
-
-#### Modos persistentes (LEADER + tecla)
-
-| Tecla | Modo |
-|---|---|
-| `f` | `resize_font` |
-| `p` | `resize_pane` |
-
-Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).  
-`Esc` o `q` para salir.
+      </details>
 
 ---
 
-### Shell (Fish + Pure)
+### Getting Started
 
-Fish es el shell predeterminado de esta configuración con el tema **Pure** y colores ámbar/dorado que combinan con las pestañas activas (`#ae8b2d`).
+- #### Requirements:
 
-#### Instalación de Fish
+  - <details>
+      <summary><b>WezTerm</b></summary>
 
-| Plataforma | Comando |
-|---|---|
-| **macOS** | `brew install fish` |
-| **Linux (Debian/Ubuntu)** | `sudo apt install fish` |
-| **Linux (Arch)** | `sudo pacman -S fish` |
-| **Linux (Fedora)** | `sudo dnf install fish` |
-| **Windows** | `winget install Fish.Fish` o `scoop install fish` |
+    Minimum Version: `20240127-113634-bbcac864`<br>
+    Recommended Version: [`Nightly`](https://github.com/wez/wezterm/releases/nightly)
 
-#### Tema Pure + Oh My Fish
+    [Official Installation Page](https://wezfurlong.org/wezterm/installation.html)
 
-```sh
-# Instalar Oh My Fish
-curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
+    **Windows**
 
-# Instalar y activar tema Pure
-omf install pure
-omf theme pure
+    - <details>
+      <summary>Install Stable</summary>
 
-# Colores dorado/ámbar (coincide con pestañas activas)
-set -U pure_color_primary "ae8b2d"
-set -U pure_color_current_directory "ae8b2d"
-set -U pure_color_prompt_on_success "ae8b2d"
-set -U pure_color_success "ae8b2d"
-set -U pure_color_info "fab387"
-set -U pure_color_mute "9ca0b0"
-set -U pure_color_danger "d35c5c"
-set -U pure_color_warning "e5c07b"
-set -U pure_color_prompt_on_error "d35c5c"
+      - Install with Scoop (non-portable)
 
-# Configurar como default_prog en WezTerm (macOS/Linux)
-# fish -l
-```
+        ```sh
+        scoop bucket add extras
+        scoop install wezterm
+        ```
 
-> **Nota:** Si cambiaste de tema y quieres volver a Pure, ejecuta `omf theme pure`.
+      - Install with Scoop (portable)
+
+        ```sh
+        scoop bucket add k https://github.com/KevinSilvester/scoop-bucket
+        scoop install k/wezterm
+        ```
+
+      - Install with winget
+
+        ```sh
+        winget install wez.wezterm
+        ```
+
+      - Install with choco
+
+        ```sh
+        choco install wezterm -y
+        ```
+      </details>
+
+    - <details>
+      <summary>Install Nightly</summary>
+
+      - Install with Scoop (non-portable)
+
+        ```sh
+        scoop bucket add versions
+        scoop install wezterm-nightly
+        ```
+
+      - Install with Scoop (portable)
+
+        ```sh
+        scoop bucket add k https://github.com/KevinSilvester/scoop-bucket
+        scoop install k/wezterm-nightly
+        ```
+      </details>
+
+    > :bulb:<br>
+    > Toast notifications don't work in non-portable installations.<br>
+    > See issue <https://github.com/wez/wezterm/issues/5166> for more details
+
+    ---
+
+    **MacOS**
+
+    - <details>
+      <summary>Install Stable</summary>
+
+      - Install with Homebrew
+
+        ```sh
+        brew install --cask wezterm
+        ```
+
+      - Install with MacPort
+
+        ```sh
+        sudo port selfupdate
+        sudo port install wezterm
+        ```
+      </details>
+
+    - <details>
+      <summary>Install Nighlty</summary>
+
+      - Install with Homebrew
+
+        ```sh
+        brew install --cask wezterm@nightly
+        ```
+
+      - Upgrade with Homebrew
+
+        ```sh
+        brew install --cask wezterm@nightly --no-quarantine --greedy-latest
+        ```
+      </details>
+
+    ---
+
+    **Linux**
+
+    Refer to the Linux installation page.<br>
+    <https://wezfurlong.org/wezterm/install/linux.html>
+
+    </details>
+
+  - <details>
+    <summary>JetBrainsMono Nerd Font</summary>
+
+    Install with Homebrew (Macos)
+
+    ```sh
+    brew install --cask font-jetbrains-mono-nerd-font
+    ```
+
+    Install with Scoop (Windows)
+
+    ```sh
+    scoop bucket add nerd-fonts
+    scoop install JetBrainsMono-NF
+    ```
+
+    > More Info:
+    >
+    > - <https://www.nerdfonts.com/#home>
+    > - <https://github.com/ryanoasis/nerd-fonts?#font-installation>
+    </details/>
+
+&nbsp;
+
+- #### Steps:
+
+  1.  ```sh
+      # On Windows and Unix systems
+      git clone https://github.com/KevinSilvester/wezterm-config.git ~/.config/wezterm
+      ```
+  2.  Update `launch` and `domain` related option:
+      - [./config/launch.lua](./config/launch.lua) for preferred shells and its paths
+      - [./config/domains.lua](./config/domains.lua) for custom SSH/WSL domains
+  3.  And Done!!! 🎉🎉
+
+&nbsp;
+
+- #### Optional But Useful:
+
+  - [**`wezterm-types`**](https://github.com/DrKJeff16/wezterm-types): **Highly** recommend setting this up for type completion and inline 
+  documentation of every configuration option, events and actions method signatures, etc. Includes type definitions for some popular Wezterm plugins as well.
 
 ---
 
-### Estructura del proyecto
+### All Key Bindings
 
-```
-~/.config/wezterm/
-├── wezterm.lua            # Punto de entrada
-├── config/
-│   ├── init.lua           # Clase Config (builder)
-│   ├── appearance.lua     # Apariencia, GPU, cursor, colores
-│   ├── bindings.lua       # Atajos de teclado
-│   ├── domains.lua        # Dominios SSH/WSL
-│   ├── fonts.lua          # Fuente y tamaño
-│   ├── general.lua        # Comportamiento general, hyperlinks
-│   └── launch.lua         # Shell predeterminado y menú
-├── events/
-│   ├── tab-title.lua      # Formato de pestañas + toggle barra
-│   └── gui-startup.lua    # Maximizar ventana al inicio
-├── utils/
-│   ├── gpu-adapter.lua    # Selector inteligente de GPU
-│   └── platform.lua       # Detección de SO
-├── .luacheckrc
-├── .luarc.json
-└── .stylua.toml
-```
+Most of the key bindings revolve around a <kbd>SUPER</kbd> and <kbd>SUPER_REV</kbd>(super reversed) keys.<br>
 
----
+- On MacOs:
+  - <kbd>SUPER</kbd> ⇨ <kbd>Super</kbd>
+  - <kbd>SUPER_REV</kbd> ⇨ <kbd>Super</kbd>+<kbd>Ctrl</kbd>
+- On Windows and Linux
+  - <kbd>SUPER</kbd> ⇨ <kbd>Alt</kbd>
+  - <kbd>SUPER_REV</kbd> ⇨ <kbd>Alt</kbd>+<kbd>Ctrl</kbd>
 
-### Instalación
+> To avoid confusion when switching between different OS and to avoid conflicting<br>
+> with OS's built-in keyboard shortcuts.
 
-#### macOS
+- On all platforms: <kbd>LEADER</kbd> ⇨ <kbd>SUPER_REV</kbd>+<kbd>Space</kbd>
 
-```sh
-# 1. Instalar WezTerm
-brew install --cask wezterm
+#### Miscellaneous/Useful
 
-# 2. Nerd Font (requerida para glifos)
-brew install --cask font-jetbrains-mono-nerd-font
+| Keys                              | Action                                      |
+| --------------------------------- | ------------------------------------------- |
+| <kbd>F1</kbd>                     | `ActivateCopyMode`                          |
+| <kbd>F2</kbd>                     | `ActivateCommandPalette`                    |
+| <kbd>F3</kbd>                     | `ShowLauncher`                              |
+| <kbd>F4</kbd>                     | `ShowLauncher` <sub>(tabs only)</sub>       |
+| <kbd>F5</kbd>                     | `ShowLauncher` <sub>(workspaces only)</sub> |
+| <kbd>F11</kbd>                    | `ToggleFullScreen`                          |
+| <kbd>F12</kbd>                    | `ShowDebugOverlay`                          |
+| <kbd>SUPER</kbd>+<kbd>f</kbd>     | Search Text                                 |
+| <kbd>SUPER_REV</kbd>+<kbd>u</kbd> | Open URL                                    |
 
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
+&nbsp;
 
-# 4. Instalar Fish (recomendado)
-brew install fish
-```
+#### Copy+Paste
 
-#### Linux
+| Keys                                          | Action               |
+| --------------------------------------------- | -------------------- |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>c</kbd> | Copy to Clipboard    |
+| <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>v</kbd> | Paste from Clipboard |
 
-```sh
-# 1. Instalar WezTerm (descargar .deb/.rpm/.AppImage desde https://wezterm.org)
-#    o vía gestor de paquetes si está disponible
+&nbsp;
 
-# 2. Nerd Font
-#    Descargar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
+#### Cursor Movements
 
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
+| Keys                                   | Action                                                     |
+| -------------------------------------- | ---------------------------------------------------------- |
+| <kbd>SUPER</kbd>+<kbd>LeftArrow</kbd>  | Move cursor to Line Start                                  |
+| <kbd>SUPER</kbd>+<kbd>RightArrow</kbd> | Move cursor to Line End                                    |
+| <kbd>SUPER</kbd>+<kbd>Backspace</kbd>  | Clear Line <sub>(does not work in PowerShell or cmd)</sub> |
 
-# 4. Instalar Fish
-sudo apt install fish          # Debian/Ubuntu
-sudo pacman -S fish            # Arch
-sudo dnf install fish          # Fedora
-```
+&nbsp;
+
+#### Tabs
+
+##### Tabs: Spawn+Close
+
+| Keys                              | Action                                |
+| --------------------------------- | ------------------------------------- |
+| <kbd>SUPER</kbd>+<kbd>t</kbd>     | `SpawnTab` <sub>(DefaultDomain)</sub> |
+| <kbd>SUPER_REV</kbd>+<kbd>t</kbd> | `SpawnTab` <sub>(WSL:Ubuntu)</sub>    |
+| <kbd>SUPER_REV</kbd>+<kbd>w</kbd> | `CloseCurrentTab`                     |
+
+##### Tabs: Navigation
+
+| Keys                              | Action         |
+| --------------------------------- | -------------- |
+| <kbd>SUPER</kbd>+<kbd>[</kbd>     | Next Tab       |
+| <kbd>SUPER</kbd>+<kbd>]</kbd>     | Previous Tab   |
+| <kbd>SUPER_REV</kbd>+<kbd>[</kbd> | Move Tab Left  |
+| <kbd>SUPER_REV</kbd>+<kbd>]</kbd> | Move Tab Right |
+
+##### Tabs: Toggle Tab-bar
+
+| Keys                          | Action         |
+| ----------------------------- | -------------- |
+| <kbd>SUPER</kbd>+<kbd>9</kbd> | Toggle tab bar |
+
+##### Tabs: Title
+
+| Keys                              | Action             |
+| --------------------------------- | ------------------ |
+| <kbd>SUPER</kbd>+<kbd>0</kbd>     | Rename Current Tab |
+| <kbd>SUPER_REV</kbd>+<kbd>0</kbd> | Undo Rename        |
+
+&nbsp;
 
 #### Windows
 
-```powershell
-# 1. Instalar WezTerm
-winget install wezterm
+| Keys                          | Action                                                             |
+| ----------------------------- | ------------------------------------------------------------------ |
+| <kbd>SUPER</kbd>+<kbd>n</kbd> | `SpawnWindow`                                                      |
+| <kbd>SUPER</kbd>+<kbd>=</kbd> | Increase Window Size <sub>(disabled on Windows due to a bug)</sub> |
+| <kbd>SUPER</kbd>+<kbd>-</kbd> | Decrease Window Size <sub>(disabled on Windows due to a bug)</sub> |
 
-# 2. Nerd Font
-#    Descargar e instalar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
+&nbsp;
 
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git $env:USERPROFILE\.config\wezterm
+#### Panes
 
-# 4. Ajustes necesarios
-#    - Editar config\launch.lua: cambiar default_prog a 'powershell' o 'pwsh'
-#    - Editar config\domains.lua: cambiar 'kevin' por tu usuario de Windows
-```
+##### Panes: Split Panes
 
-#### Post-instalación (todas las plataformas)
+| Keys                               | Action                                           |
+| ---------------------------------- | ------------------------------------------------ |
+| <kbd>SUPER</kbd>+<kbd>\\</kbd>     | `SplitVertical` <sub>(CurrentPaneDomain)</sub>   |
+| <kbd>SUPER_REV</kbd>+<kbd>\\</kbd> | `SplitHorizontal` <sub>(CurrentPaneDomain)</sub> |
 
-```sh
-# Configurar Fish + Pure (ver sección "Shell (Fish + Pure)" arriba)
-curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-omf install pure
-omf theme pure
-```
+##### Panes: Zoom+Close Pane
 
-> **Requisitos:**
-> - WezTerm `20240127-113634-bbcac864` o superior
-> - [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)
-> - Fish shell `≥3.x` (recomendado)
+| Keys                              | Action                |
+| --------------------------------- | --------------------- |
+| <kbd>SUPER</kbd>+<kbd>Enter</kbd> | `TogglePaneZoomState` |
+| <kbd>SUPER</kbd>+<kbd>w</kbd>     | `CloseCurrentPane`    |
+
+##### Panes: Navigation
+
+| Keys                              | Action                  |
+| --------------------------------- | ----------------------- |
+| <kbd>SUPER_REV</kbd>+<kbd>k</kbd> | Move to Pane (Up)       |
+| <kbd>SUPER_REV</kbd>+<kbd>j</kbd> | Move to Pane (Down)     |
+| <kbd>SUPER_REV</kbd>+<kbd>h</kbd> | Move to Pane (Left)     |
+| <kbd>SUPER_REV</kbd>+<kbd>l</kbd> | Move to Pane (Right)    |
+| <kbd>SUPER_REV</kbd>+<kbd>p</kbd> | Swap with selected Pane |
+
+##### Panes: Scroll Pane
+
+| Keys                          | Action                               |
+| ----------------------------- | ------------------------------------ |
+| <kbd>SUPER</kbd>+<kbd>u</kbd> | Scroll Lines up <sub>5 lines</sub>   |
+| <kbd>SUPER</kbd>+<kbd>d</kbd> | Scroll Lines down <sub>5 lines</sub> |
+| <kbd>PageUp</kbd>             | Scroll Page up                       |
+| <kbd>PageDown</kbd>           | Scroll Page down                     |
+
+&nbsp;
+
+#### Background Images
+
+| Keys                              | Action                       |
+| --------------------------------- | ---------------------------- |
+| <kbd>SUPER</kbd>+<kbd>/</kbd>     | Select Random Image          |
+| <kbd>SUPER</kbd>+<kbd>,</kbd>     | Cycle to next Image          |
+| <kbd>SUPER</kbd>+<kbd>.</kbd>     | Cycle to previous Image      |
+| <kbd>SUPER_REV</kbd>+<kbd>/</kbd> | Fuzzy select Image           |
+| <kbd>SUPER</kbd>+<kbd>b</kbd>     | Toggle background focus mode |
+
+&nbsp;
+
+#### Key Tables
+
+> See: <https://wezfurlong.org/wezterm/config/key-tables.html>
+
+| Keys                           | Action        |
+| ------------------------------ | ------------- |
+| <kbd>LEADER</kbd>+<kbd>f</kbd> | `resize_font` |
+| <kbd>LEADER</kbd>+<kbd>p</kbd> | `resize_pane` |
+
+##### Key Table: `resize_font`
+
+| Keys           | Action                          |
+| -------------- | ------------------------------- |
+| <kbd>k</kbd>   | `IncreaseFontSize`              |
+| <kbd>j</kbd>   | `DecreaseFontSize`              |
+| <kbd>r</kbd>   | `ResetFontSize`                 |
+| <kbd>q</kbd>   | `PopKeyTable` <sub>(exit)</sub> |
+| <kbd>Esc</kbd> | `PopKeyTable` <sub>(exit)</sub> |
+
+##### Key Table: `resize_pane`
+
+| Keys           | Action                                         |
+| -------------- | ---------------------------------------------- |
+| <kbd>k</kbd>   | `AdjustPaneSize` <sub>(Direction: Up)</sub>    |
+| <kbd>j</kbd>   | `AdjustPaneSize` <sub>(Direction: Down)</sub>  |
+| <kbd>h</kbd>   | `AdjustPaneSize` <sub>(Direction: Left)</sub>  |
+| <kbd>l</kbd>   | `AdjustPaneSize` <sub>(Direction: Right)</sub> |
+| <kbd>q</kbd>   | `PopKeyTable` <sub>(exit)</sub>                |
+| <kbd>Esc</kbd> | `PopKeyTable` <sub>(exit)</sub>                |
 
 ---
 
-### Referencias
+### References/Inspirations
 
-- <https://github.com/wez/wezterm>
-- <https://github.com/KevinSilvester/wezterm-config> — inspiración original
+- <https://github.com/rxi/lume>
 - <https://github.com/catppuccin/wezterm>
+- <https://github.com/wez/wezterm/discussions/628#discussioncomment-1874614>
+- <https://github.com/wez/wezterm/discussions/628#discussioncomment-5942139>

@@ -1,5 +1,6 @@
 local wezterm = require('wezterm')
 local platform = require('utils.platform')
+local backdrops = require('utils.backdrops')
 local act = wezterm.action
 
 local mod = {}
@@ -12,39 +13,22 @@ elseif platform.is_win or platform.is_linux then
    mod.SUPER_REV = 'ALT|CTRL'
 end
 
--- Modifier conventions (portable across Mac / Windows / Linux):
---   SUPER       = CMD (Mac)  /  ALT (Win-Linux)
---   SUPER_REV   = CMD+CTRL (Mac)  /  ALT+CTRL (Win-Linux)
---   LEADER      = CMD+CTRL+a (Mac)  /  ALT+CTRL+a (Win-Linux)  timeout=3000ms
---
--- 60% ISO Spanish keyboard notes:
---   - No direct arrow keys (require Fn); arrow-based shortcuts removed.
---   - No direct F-keys (conflict with macOS system shortcuts); replaced by LEADER+key.
---   - No PageUp/PageDown; replaced by SUPER+SHIFT+u/d.
---   - Splits on 'v' (vertical divider) and 'h' (horizontal divider).
---
--- On Win/Linux, Alt = SUPER, but fish also uses Alt for word jumps and editing
--- (Alt+f = forward-word, Alt+d = kill-word, etc.). To avoid conflict, these
--- specific keys use SUPER_REV (Alt+Ctrl) instead of SUPER (Alt) on Win/Linux.
-local mod_fish_safe = (platform.is_win or platform.is_linux) and mod.SUPER_REV or mod.SUPER
---
--- Split naming (WezTerm API):
---   SplitHorizontal -> panes side-by-side (vertical divider) -> 'v'
---   SplitVertical   -> panes stacked (horizontal divider)    -> 'h'
-
 -- stylua: ignore
 ---@type Key[]
 local keys = {
-
-   -- font size (letter keys: k/j/r — direct on all keyboard layouts) --
-   { key = 'k', mods = mod.SUPER, action = act.IncreaseFontSize },
-   { key = 'j', mods = mod.SUPER, action = act.DecreaseFontSize },
-   { key = 'r', mods = mod_fish_safe, action = act.ResetFontSize },
-
-   -- search --
-   { key = 'f', mods = mod_fish_safe, action = act.Search({ CaseInSensitiveString = '' }) },
-
-   -- open url --
+   -- misc/useful --
+   { key = 'F1', mods = 'NONE', action = act.ActivateCopyMode },
+   { key = 'F2', mods = 'NONE', action = act.ActivateCommandPalette },
+   { key = 'F3', mods = 'NONE', action = act.ShowLauncher },
+   { key = 'F4', mods = 'NONE', action = act.ShowLauncherArgs({ flags = 'FUZZY|TABS' }) },
+   {
+      key = 'F5',
+      mods = 'NONE',
+      action = act.ShowLauncherArgs({ flags = 'FUZZY|WORKSPACES' }),
+   },
+   { key = 'F11', mods = 'NONE',    action = act.ToggleFullScreen },
+   { key = 'F12', mods = 'NONE',    action = act.ShowDebugOverlay },
+   { key = 'f',   mods = mod.SUPER, action = act.Search({ CaseInSensitiveString = '' }) },
    {
       key = 'u',
       mods = mod.SUPER_REV,
@@ -65,51 +49,74 @@ local keys = {
       }),
    },
 
-   -- cursor movement (no arrow keys; arrows require Fn on 60% keyboards) --
-   { key = 'Backspace', mods = mod_fish_safe, action = act.SendString('\u{15}') },
+   -- cursor movement --
+   { key = 'LeftArrow',  mods = mod.SUPER,     action = act.SendString('\u{1b}OH') },
+   { key = 'RightArrow', mods = mod.SUPER,     action = act.SendString('\u{1b}OF') },
+   { key = 'Backspace',  mods = mod.SUPER,     action = act.SendString('\u{15}') },
 
    -- copy/paste --
-   { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo('Clipboard') },
-   { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom('Clipboard') },
+   { key = 'c',          mods = 'CTRL|SHIFT',  action = act.CopyTo('Clipboard') },
+   { key = 'v',          mods = 'CTRL|SHIFT',  action = act.PasteFrom('Clipboard') },
 
-   -- tabs: spawn + close --
-   { key = 't', mods = mod.SUPER,     action = act.SpawnTab('DefaultDomain') },
-   { key = 't', mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'wsl:ubuntu-fish' }) },
-   { key = 'w', mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
+   { key = 'n',          mods = 'CTRL|SHIFT',  action = act.SendString('\u{2660}') },
+   { key = 's',          mods = 'CTRL|SHIFT',  action = act.SendString('\u{203D}') },
 
-   -- tabs: navigation --
-   { key = '[', mods = mod.SUPER,     action = act.ActivateTabRelative(-1) },
-   { key = ']', mods = mod.SUPER,     action = act.ActivateTabRelative(1) },
-   { key = '[', mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
-   { key = ']', mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
+   -- tabs --
+   -- tabs: spawn+close
+   { key = 't',          mods = mod.SUPER,     action = act.SpawnTab('DefaultDomain') },
+   { key = 't',          mods = mod.SUPER_REV, action = act.SpawnTab({ DomainName = 'wsl:ubuntu-fish' }) },
+   { key = 'w',          mods = mod.SUPER_REV, action = act.CloseCurrentTab({ confirm = false }) },
 
-   -- tabs: toggle tab bar --
-   { key = '9', mods = mod.SUPER, action = act.EmitEvent('tabs.toggle-tab-bar') },
+   -- tabs: navigation
+   { key = '[',          mods = mod.SUPER,     action = act.ActivateTabRelative(-1) },
+   { key = ']',          mods = mod.SUPER,     action = act.ActivateTabRelative(1) },
+   { key = '[',          mods = mod.SUPER_REV, action = act.MoveTabRelative(-1) },
+   { key = ']',          mods = mod.SUPER_REV, action = act.MoveTabRelative(1) },
 
-   -- window: spawn --
-   { key = 'n', mods = mod.SUPER, action = act.SpawnWindow },
+   -- tab: title
+   { key = '0',          mods = mod.SUPER,     action = act.EmitEvent('tabs.manual-update-tab-title') },
+   { key = '0',          mods = mod.SUPER_REV, action = act.EmitEvent('tabs.reset-tab-title') },
 
-   -- window: resize ±50px (letter keys: e/s — direct on all keyboard layouts) --
+   -- tab: hide tab-bar
+   { key = '9',          mods = mod.SUPER,     action = act.EmitEvent('tabs.toggle-tab-bar'), },
+
+   -- window --
+   -- window: spawn windows
+   { key = 'n',          mods = mod.SUPER,     action = act.SpawnWindow },
+
+   -- window: zoom window
    {
-      key = 's',
-      mods = mod.SUPER_REV,
+      key = '-',
+      mods = mod.SUPER,
       action = wezterm.action_callback(function(window, _pane)
          local dimensions = window:get_dimensions()
-         if platform.is_win or dimensions.is_full_screen then return end
-         window:set_inner_size(dimensions.pixel_width - 50, dimensions.pixel_height - 50)
+         -- on Windows 11 (the only OS I'm able to test this on), `is_full_screen` is always false (it's a bug).
+         -- Calling `set_inner_size` when the window is actually in fullscreen will cause the
+         -- program UI to completely freeze.
+         if platform.is_win or dimensions.is_full_screen then
+            return
+         end
+         local new_width = dimensions.pixel_width - 50
+         local new_height = dimensions.pixel_height - 50
+         window:set_inner_size(new_width, new_height)
       end)
    },
    {
-      key = 'e',
-      mods = mod.SUPER_REV,
+      key = '=',
+      mods = mod.SUPER,
       action = wezterm.action_callback(function(window, _pane)
          local dimensions = window:get_dimensions()
-         if platform.is_win or dimensions.is_full_screen then return end
-         window:set_inner_size(dimensions.pixel_width + 50, dimensions.pixel_height + 50)
+         -- on Windows 11 (the only OS I'm able to test this on), `is_full_screen` is always false (it's a bug).
+         -- Calling `set_inner_size` when the window is actually in fullscreen will cause the
+         -- program UI to completely freeze.
+         if platform.is_win or dimensions.is_full_screen then
+            return
+         end
+         local new_width = dimensions.pixel_width + 50
+         local new_height = dimensions.pixel_height + 50
+         window:set_inner_size(new_width, new_height)
       end)
    },
-
-   -- window: maximize --
    {
       key = 'Enter',
       mods = mod.SUPER_REV,
@@ -118,61 +125,106 @@ local keys = {
       end)
    },
 
-   -- panes: split --
-   -- 'h' = horizontal divider (stacked),  'v' = vertical divider (side-by-side)
-   -- SUPER+SHIFT: direct, for general use outside opencode
-   -- LEADER+h/v:  reliable inside opencode (see LEADER section below)
-   { key = 'h', mods = mod.SUPER .. '|SHIFT', action = act.SplitVertical({ domain = 'CurrentPaneDomain' }) },
-   { key = 'v', mods = mod.SUPER .. '|SHIFT', action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }) },
+   -- background controls --
+   {
+      key = [[/]],
+      mods = mod.SUPER,
+      action = wezterm.action_callback(function(window, _pane)
+         backdrops:random(window)
+      end),
+   },
+   {
+      key = [[,]],
+      mods = mod.SUPER,
+      action = wezterm.action_callback(function(window, _pane)
+         backdrops:cycle_back(window)
+      end),
+   },
+   {
+      key = [[.]],
+      mods = mod.SUPER,
+      action = wezterm.action_callback(function(window, _pane)
+         backdrops:cycle_forward(window)
+      end),
+   },
+   {
+      key = [[/]],
+      mods = mod.SUPER_REV,
+      action = act.InputSelector({
+         title = 'InputSelector: Select Background',
+         choices = backdrops:choices(),
+         fuzzy = true,
+         fuzzy_description = 'Select Background: ',
+         action = wezterm.action_callback(function(window, _pane, idx)
+            if not idx then
+               return
+            end
+            ---@diagnostic disable-next-line: param-type-mismatch
+            backdrops:set_img(window, tonumber(idx))
+         end),
+      }),
+   },
+   {
+      key = 'b',
+      mods = mod.SUPER,
+      action = wezterm.action_callback(function(window, _pane)
+         backdrops:toggle_focus(window)
+      end)
+   },
 
-   -- panes: zoom + close --
-   { key = 'Enter', mods = mod.SUPER, action = act.TogglePaneZoomState },
-   { key = 'w',     mods = mod.SUPER, action = act.CloseCurrentPane({ confirm = false }) },
+   -- panes --
+   -- panes: split panes
+   {
+      key = [[\]],
+      mods = mod.SUPER,
+      action = act.SplitVertical({ domain = 'CurrentPaneDomain' }),
+   },
+   {
+      key = [[\]],
+      mods = mod.SUPER_REV,
+      action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
+   },
 
-   -- panes: navigation (vim-style, no arrow keys needed) --
-   { key = 'k', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Up') },
-   { key = 'j', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Down') },
-   { key = 'h', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Left') },
-   { key = 'l', mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Right') },
+   -- panes: zoom+close pane
+   { key = 'Enter', mods = mod.SUPER,     action = act.TogglePaneZoomState },
+   { key = 'w',     mods = mod.SUPER,     action = act.CloseCurrentPane({ confirm = false }) },
+
+   -- panes: navigation
+   { key = 'k',     mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Up') },
+   { key = 'j',     mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Down') },
+   { key = 'h',     mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Left') },
+   { key = 'l',     mods = mod.SUPER_REV, action = act.ActivatePaneDirection('Right') },
    {
       key = 'p',
       mods = mod.SUPER_REV,
       action = act.PaneSelect({ alphabet = '1234567890', mode = 'SwapWithActiveKeepFocus' }),
    },
 
-   -- panes: scroll (no PageUp/PageDown; requires Fn on 60% keyboards) --
-   { key = 'u', mods = mod_fish_safe,            action = act.ScrollByLine(-5) },
-   { key = 'd', mods = mod_fish_safe,            action = act.ScrollByLine(5) },
-   { key = 'u', mods = mod_fish_safe .. '|SHIFT', action = act.ScrollByPage(-0.75) },
-   { key = 'd', mods = mod_fish_safe .. '|SHIFT', action = act.ScrollByPage(0.75) },
+   -- panes: scroll pane
+   { key = 'u',        mods = mod.SUPER, action = act.ScrollByLine(-5) },
+   { key = 'd',        mods = mod.SUPER, action = act.ScrollByLine(5) },
+   { key = 'PageUp',   mods = 'NONE',    action = act.ScrollByPage(-0.75) },
+   { key = 'PageDown', mods = 'NONE',    action = act.ScrollByPage(0.75) },
 
-   -- LEADER one-shot actions --
-   -- Replaces F1-F12 (conflict with macOS system shortcuts on 60% keyboards).
-   -- Splits also work inside opencode (which intercepts SUPER+SHIFT+h/v).
-   { key = 'c',     mods = 'LEADER', action = act.ActivateCopyMode },
-   { key = ',',     mods = 'LEADER', action = act.ActivateCommandPalette },
-   { key = 'Space', mods = 'LEADER', action = act.ShowLauncher },
-   { key = 'Enter', mods = 'LEADER', action = act.ToggleFullScreen },
-   { key = 'd',     mods = 'LEADER', action = act.ShowDebugOverlay },
-   { key = 'v',     mods = 'LEADER', action = act.SplitHorizontal({ domain = 'CurrentPaneDomain' }) },
-   { key = 'h',     mods = 'LEADER', action = act.SplitVertical({ domain = 'CurrentPaneDomain' }) },
-   { key = 'b',     mods = 'LEADER', action = act.EmitEvent('tabs.toggle-tab-bar') },
-
-   -- LEADER persistent modes (no timeout: stays active until Esc/q) --
+   -- key-tables --
+   -- resizes fonts
    {
       key = 'f',
       mods = 'LEADER',
       action = act.ActivateKeyTable({
          name = 'resize_font',
          one_shot = false,
+         timeout_milliseconds = 1000,
       }),
    },
+   -- resize panes
    {
       key = 'p',
       mods = 'LEADER',
       action = act.ActivateKeyTable({
          name = 'resize_pane',
          one_shot = false,
+         timeout_milliseconds = 1000,
       }),
    },
 }
@@ -211,7 +263,7 @@ local mouse_bindings = {
 return {
    disable_default_key_bindings = true,
    -- disable_default_mouse_bindings = true,
-   leader = { key = 'a', mods = mod.SUPER_REV, timeout_milliseconds = 3000 },
+   leader = { key = 'Space', mods = mod.SUPER_REV },
    keys = keys,
    key_tables = key_tables,
    mouse_bindings = mouse_bindings,
