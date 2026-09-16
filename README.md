@@ -1,253 +1,149 @@
-<h2 align="center">Configuración de WezTerm</h2>
+# Configuración de WezTerm Multiplataforma
 
-<p align="center">
-  <img alt="WezTerm" src="https://img.shields.io/badge/WezTerm-20240127%2B-8CA2D6?style=for-the-badge&logo=windowsterminal&color=C9CBFF&logoColor=D9E0EE&labelColor=302D41">
-</p>
+Configuración modular de [WezTerm](https://wezfurlong.org/wezterm/) optimizada para funcionar de forma transparente y sin ajustes manuales en **Linux**, **macOS** y **Windows (nativo o WSL)**.
 
 ---
 
-### Características
+## Características Principales
 
-- **Transparencia / frosted glass** — Opacidad 85 % + blur en macOS.
-- **Selección automática de GPU** — Elige la mejor GPU y API gráfica disponible.
-- **Teclado 60% ISO Español** — Atajos optimizados sin teclas F ni flechas dedicadas.
-- **Modificadores portátiles** — Atajos consistentes entre macOS, Windows y Linux.
-- **Tablas de teclas persistentes** — Modos `resize_font` y `resize_pane` sin timeout.
-- **Pestañas transparentes** — `active_titlebar_bg = 'none'` para efecto uniforme.
-- **Shell Fish + Pure** — Prompt minimalista con colores ámbar/dorado.
-- **Hyperlinks automáticos** — Detección de URLs en múltiples formatos.
-
----
-
-### Atajos de teclado
-
-Los atajos se muestran para cada sistema operativo. Usa la tabla según tu plataforma.
-
-> **Nota:** Configurado para teclado 60% ISO Español. Sin teclas F, sin flechas, sin PageUp/PageDown.  
-> En **Windows/Linux**, las teclas `f`, `r`, `u`, `d`, `Backspace` usan `Alt+Ctrl` en vez de `Alt` para no conflictuar con atajos de fish (avanzar palabra, kill-word, etc.).
-
-#### Convención de modificadores
-
-| Modificador | macOS | Linux | Windows |
-|---|---|---|---|
-| `SUPER` | `Cmd` | `Alt` | `Alt` |
-| `SUPER_REV` | `Cmd`+`Ctrl` | `Alt`+`Ctrl` | `Alt`+`Ctrl` |
-| `LEADER` | `Cmd`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) | `Alt`+`Ctrl`+`a` (3s timeout) |
-
-#### Generales
-
-| Acción | macOS | Linux | Windows |
-|---|---|---|---|
-| Aumentar fuente | `Cmd` + `k` | `Alt` + `k` | `Alt` + `k` |
-| Disminuir fuente | `Cmd` + `j` | `Alt` + `j` | `Alt` + `j` |
-| Restablecer fuente | `Cmd` + `r` | `Alt` + `Ctrl` + `r` | `Alt` + `Ctrl` + `r` |
-| Buscar texto | `Cmd` + `f` | `Alt` + `Ctrl` + `f` | `Alt` + `Ctrl` + `f` |
-| Abrir URL bajo cursor | `Cmd` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` | `Alt` + `Ctrl` + `u` |
-| Limpiar línea | `Cmd` + `Backspace` | `Alt` + `Ctrl` + `Backspace` | `Alt` + `Ctrl` + `Backspace` |
-| Copiar | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` | `Ctrl` + `Shift` + `c` |
-| Pegar | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` | `Ctrl` + `Shift` + `v` |
-| Abrir enlace | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo | `Ctrl` + clic izquierdo |
-
-#### Pestañas
-
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Nueva pestaña (default) | `Cmd` + `t` | `Alt` + `t` |
-| Nueva pestaña (WSL Ubuntu) | `Cmd` + `Ctrl` + `t` | `Alt` + `Ctrl` + `t` |
-| Cerrar pestaña | `Cmd` + `Ctrl` + `w` | `Alt` + `Ctrl` + `w` |
-| Pestaña anterior / siguiente | `Cmd` + `[` / `]` | `Alt` + `[` / `]` |
-| Mover pestaña izq. / der. | `Cmd` + `Ctrl` + `[` / `]` | `Alt` + `Ctrl` + `[` / `]` |
-| Ocultar/mostrar barra | `Cmd` + `9` | `Alt` + `9` |
-
-#### Paneles (panes)
-
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Panel horizontal (apilado) | `Cmd` + `Shift` + `h` | `Alt` + `Shift` + `h` |
-| Panel vertical (lado a lado) | `Cmd` + `Shift` + `v` | `Alt` + `Shift` + `v` |
-| Maximizar/restaurar panel | `Cmd` + `Enter` | `Alt` + `Enter` |
-| Cerrar panel | `Cmd` + `w` | `Alt` + `w` |
-| Navegar panes (vim-style) | `Cmd` + `Ctrl` + `h`/`j`/`k`/`l` | `Alt` + `Ctrl` + `h`/`j`/`k`/`l` |
-| Intercambiar panel | `Cmd` + `Ctrl` + `p` | `Alt` + `Ctrl` + `p` |
-| Desplazar 5 líneas | `Cmd` + `u` / `d` | `Alt` + `Ctrl` + `u` / `d` |
-| Desplazar página | `Cmd` + `Shift` + `u` / `d` | `Alt` + `Ctrl` + `Shift` + `u` / `d` |
-
-#### Ventanas
-
-| Acción | macOS | Linux / Windows |
-|---|---|---|
-| Nueva ventana | `Cmd` + `n` | `Alt` + `n` |
-| Reducir tamaño (-50px) | `Cmd` + `Ctrl` + `s` | `Alt` + `Ctrl` + `s` |
-| Aumentar tamaño (+50px) | `Cmd` + `Ctrl` + `e` | `Alt` + `Ctrl` + `e` |
-| Maximizar ventana | `Cmd` + `Ctrl` + `Enter` | `Alt` + `Ctrl` + `Enter` |
-
-#### Acciones LEADER (una tecla)
-
-Presiona `LEADER` (`Cmd`+`Ctrl`+`a` en macOS / `Alt`+`Ctrl`+`a` en Win/Linux) y luego:
-
-| Tecla | Acción |
-|---|---|
-| `c` | Modo copia |
-| `,` | Paleta de comandos |
-| `Space` | Lanzador |
-| `Enter` | Pantalla completa |
-| `d` | Superposición de depuración |
-| `v` | Panel vertical |
-| `h` | Panel horizontal |
-| `b` | Ocultar/mostrar barra |
-
-#### Modos persistentes (LEADER + tecla)
-
-| Tecla | Modo |
-|---|---|
-| `f` | `resize_font` |
-| `p` | `resize_pane` |
-
-Dentro del modo, usa `k`/`j` (fuente) o `h`/`j`/`k`/`l` (paneles).  
-`Esc` o `q` para salir.
+- **Atajos Portables y Tradicionales**: Sin conflictos con comandos de terminal o atajos del sistema operativo.
+  - En **Linux / Windows**: `Ctrl + Shift` para operaciones de terminal y `Alt` simple libre para shells (`bash`, `zsh`, `fish`, readline).
+  - En **macOS**: `Cmd (Super)` tradicional de macOS.
+- **Independiente de la distribución de teclado**: Se eliminaron caracteres especiales (`\`, `[`, `]`, `/`, etc.) para garantizar compatibilidad con teclados en español, inglés o cualquier distribución ISO/ANSI.
+- **Leader Key Ergonómico (`Ctrl + a`)**: Acceso rápido a tablas modales para redimensionar paneles, fuentes, intercambiar paneles y controlar fondos de pantalla.
+- **Redimensión y Reubicación de Paneles**: Modo interactivo con ajuste visible de 3 celdas (flechas o `hjkl`) y selector visual para intercambiar posiciones de splits (`Swap`).
+- **Reorganización de Pestañas**: Desplazamiento relativo de pestañas hacia la izquierda o derecha con `Ctrl + Shift + PageUp / PageDown`.
+- **Selector de Fondos**: Cambio cíclico o búsqueda difusa de fondos de pantalla incluidos en `backdrops/`.
+- **Detección Automática de Shells y WSL**: Sin rutas hardcodeadas ni nombres de usuario fijos.
 
 ---
 
-### Shell (Fish + Pure)
+## Requisitos e Instalación
 
-Fish es el shell predeterminado de esta configuración con el tema **Pure** y colores ámbar/dorado que combinan con las pestañas activas (`#ae8b2d`).
+1. **Instalar WezTerm**:
+   - **Linux**: Ver instrucciones según distribución en [wezfurlong.org/wezterm/install/linux.html](https://wezfurlong.org/wezterm/install/linux.html).
+   - **macOS**: `brew install --cask wezterm`
+   - **Windows**: `winget install wez.wezterm` o `choco install wezterm -y`
 
-#### Instalación de Fish
+2. **Tipografía recomendada**:
+   - `JetBrainsMono Nerd Font` (o cualquier Nerd Font equivalente).
 
-| Plataforma | Comando |
-|---|---|
-| **macOS** | `brew install fish` |
-| **Linux (Debian/Ubuntu)** | `sudo apt install fish` |
-| **Linux (Arch)** | `sudo pacman -S fish` |
-| **Linux (Fedora)** | `sudo dnf install fish` |
-| **Windows** | `winget install Fish.Fish` o `scoop install fish` |
-
-#### Tema Pure + Oh My Fish
-
-```sh
-# Instalar Oh My Fish
-curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-
-# Instalar y activar tema Pure
-omf install pure
-omf theme pure
-
-# Colores dorado/ámbar (coincide con pestañas activas)
-set -U pure_color_primary "ae8b2d"
-set -U pure_color_current_directory "ae8b2d"
-set -U pure_color_prompt_on_success "ae8b2d"
-set -U pure_color_success "ae8b2d"
-set -U pure_color_info "fab387"
-set -U pure_color_mute "9ca0b0"
-set -U pure_color_danger "d35c5c"
-set -U pure_color_warning "e5c07b"
-set -U pure_color_prompt_on_error "d35c5c"
-
-# Configurar como default_prog en WezTerm (macOS/Linux)
-# fish -l
-```
-
-> **Nota:** Si cambiaste de tema y quieres volver a Pure, ejecuta `omf theme pure`.
+3. **Clonar este repositorio**:
+   ```bash
+   git clone https://github.com/KevinSilvester/wezterm-config.git ~/.config/wezterm
+   ```
 
 ---
 
-### Estructura del proyecto
+## Tabla Completa de Atajos de Teclado
 
-```
-~/.config/wezterm/
-├── wezterm.lua            # Punto de entrada
-├── config/
-│   ├── init.lua           # Clase Config (builder)
-│   ├── appearance.lua     # Apariencia, GPU, cursor, colores
-│   ├── bindings.lua       # Atajos de teclado
-│   ├── domains.lua        # Dominios SSH/WSL
-│   ├── fonts.lua          # Fuente y tamaño
-│   ├── general.lua        # Comportamiento general, hyperlinks
-│   └── launch.lua         # Shell predeterminado y menú
-├── events/
-│   ├── tab-title.lua      # Formato de pestañas + toggle barra
-│   └── gui-startup.lua    # Maximizar ventana al inicio
-├── utils/
-│   ├── gpu-adapter.lua    # Selector inteligente de GPU
-│   └── platform.lua       # Detección de SO
-├── .luacheckrc
-├── .luarc.json
-└── .stylua.toml
-```
+### Convención de Teclas Modificadoras
+
+| Modificador en esta guía | Linux / Windows | macOS |
+| ------------------------ | --------------- | ----- |
+| **Principal**            | `Ctrl + Shift`  | `Cmd` |
+| **Principal + Secundario** | `Ctrl + Alt`  | `Cmd + Shift` |
+| **Pestañas por Número**  | `Alt + [1-8]`   | `Cmd + [1-8]` |
+| **Leader Key**           | `Ctrl + a`      | `Ctrl + a` |
 
 ---
 
-### Instalación
+### Pestañas (Tabs)
 
-#### macOS
-
-```sh
-# 1. Instalar WezTerm
-brew install --cask wezterm
-
-# 2. Nerd Font (requerida para glifos)
-brew install --cask font-jetbrains-mono-nerd-font
-
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
-
-# 4. Instalar Fish (recomendado)
-brew install fish
-```
-
-#### Linux
-
-```sh
-# 1. Instalar WezTerm (descargar .deb/.rpm/.AppImage desde https://wezterm.org)
-#    o vía gestor de paquetes si está disponible
-
-# 2. Nerd Font
-#    Descargar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
-
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git ~/.config/wezterm
-
-# 4. Instalar Fish
-sudo apt install fish          # Debian/Ubuntu
-sudo pacman -S fish            # Arch
-sudo dnf install fish          # Fedora
-```
-
-#### Windows
-
-```powershell
-# 1. Instalar WezTerm
-winget install wezterm
-
-# 2. Nerd Font
-#    Descargar e instalar JetBrainsMono Nerd Font desde https://www.nerdfonts.com/
-
-# 3. Clonar configuración
-git clone https://github.com/isaiasnef/wezterm.git $env:USERPROFILE\.config\wezterm
-
-# 4. Ajustes necesarios
-#    - Editar config\launch.lua: cambiar default_prog a 'powershell' o 'pwsh'
-#    - Editar config\domains.lua: cambiar 'kevin' por tu usuario de Windows
-```
-
-#### Post-instalación (todas las plataformas)
-
-```sh
-# Configurar Fish + Pure (ver sección "Shell (Fish + Pure)" arriba)
-curl -sL https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-omf install pure
-omf theme pure
-```
-
-> **Requisitos:**
-> - WezTerm `20240127-113634-bbcac864` o superior
-> - [JetBrainsMono Nerd Font](https://www.nerdfonts.com/)
-> - Fish shell `≥3.x` (recomendado)
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Nueva pestaña** | `Ctrl + Shift + t` | `Cmd + t` |
+| **Cerrar pestaña activa** | `Ctrl + Shift + w` | `Cmd + w` |
+| **Pestaña siguiente** | `Ctrl + Tab` | `Ctrl + Tab` |
+| **Pestaña anterior** | `Ctrl + Shift + Tab` | `Ctrl + Shift + Tab` |
+| **Mover pestaña a la izquierda** | `Ctrl + Shift + PageUp` | `Ctrl + Shift + PageUp` |
+| **Mover pestaña a la derecha** | `Ctrl + Shift + PageDown` | `Ctrl + Shift + PageDown` |
+| **Ir a pestaña específica (1 al 8)** | `Alt + 1` .. `Alt + 8` | `Cmd + 1` .. `Cmd + 8` |
+| **Ir a última pestaña** | `Alt + 9` | `Cmd + 9` |
+| **Renombrar pestaña** | `Ctrl + a` seguido de `t` | `Ctrl + a` seguido de `t` |
+| **Restablecer nombre de pestaña** | `Ctrl + a` seguido de `Shift + t` | `Ctrl + a` seguido de `Shift + t` |
+| **Ocultar / Mostrar barra de pestañas** | `F9` o `Ctrl + a` seguido de `z` | `F9` o `Ctrl + a` seguido de `z` |
 
 ---
 
-### Referencias
+### Paneles (Panes)
 
-- <https://github.com/wez/wezterm>
-- <https://github.com/KevinSilvester/wezterm-config> — inspiración original
-- <https://github.com/catppuccin/wezterm>
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Dividir horizontalmente** | `Ctrl + Shift + d` | `Cmd + d` |
+| **Dividir verticalmente** | `Ctrl + Shift + e` | `Cmd + e` |
+| **Cerrar panel activo** | `Ctrl + Shift + x` | `Cmd + x` |
+| **Maximizar / Restaurar panel (Zoom)** | `Ctrl + Shift + Enter` | `Cmd + Enter` |
+| **Intercambiar / Reubicar panel (Swap)** | `Ctrl + a` seguido de `w` | `Ctrl + a` seguido de `w` |
+| **Moverse al panel superior** | `Ctrl + Alt + k` | `Cmd + Shift + k` |
+| **Moverse al panel inferior** | `Ctrl + Alt + j` | `Cmd + Shift + j` |
+| **Moverse al panel izquierdo** | `Ctrl + Alt + h` | `Cmd + Shift + h` |
+| **Moverse al panel derecho** | `Ctrl + Alt + l` | `Cmd + Shift + l` |
+
+---
+
+### Utilidades y Portapapeles
+
+| Acción | Linux / Windows | macOS |
+| ------ | --------------- | ----- |
+| **Copiar al portapapeles** | `Ctrl + Shift + c` | `Cmd + c` o `Ctrl + Shift + c` |
+| **Pegar desde el portapapeles** | `Ctrl + Shift + v` | `Cmd + v` o `Ctrl + Shift + v` |
+| **Buscar texto** | `Ctrl + Shift + f` | `Cmd + f` |
+| **Abrir enlaces/URLs en pantalla** | `Ctrl + Shift + u` | `Cmd + u` |
+| **Paleta de comandos** | `F2` o `Ctrl + Shift + p` | `F2` o `Cmd + p` |
+| **Modo copia (Copy Mode)** | `F1` | `F1` |
+| **Lanzador de pestañas / dominios** | `F3` | `F3` |
+| **Pantalla completa** | `F11` | `F11` |
+| **Depuración (Debug Overlay)** | `F12` | `F12` |
+
+---
+
+### Atajos con Leader Key (`Ctrl + a`)
+
+Presiona `Ctrl + a`, suelta ambas teclas y luego presiona la letra correspondiente:
+
+| Tecla tras Leader | Acción |
+| ----------------- | ------ |
+| `a` | Envía `Ctrl + a` literal a la shell (ej. mover el cursor al inicio de la línea). |
+| `r` | Entra al modo de **Redimensionar Paneles** (ajuste de 3 celdas con `Flechas` o `h`,`j`,`k`,`l`; timeout de 2.5s; sal con `Esc` o `q`). |
+| `w` | Abre el selector visual (`PaneSelect`) para intercambiar la posición del panel activo con otro. |
+| `t` | Abre diálogo para renombrar la pestaña activa manualmente. |
+| `Shift + t` (`T`) | Restablece el nombre automático de la pestaña. |
+| `z` | Oculta o muestra la barra de pestañas (equivalente a `F9`). |
+| `f` | Entra al modo de **Tamaño de Fuente** (`k` aumenta, `j` reduce, `r` restablece; sal con `Esc` o `q`). |
+| `b` | Alterna el enfoque/opacidad del fondo de pantalla. |
+| `n` | Cambia al siguiente fondo de pantalla. |
+| `p` | Cambia al fondo de pantalla anterior. |
+| `s` | Abre el menú difuso de selección de fondos (`InputSelector`). |
+
+---
+
+## Guía de Verificación Manual
+
+Para verificar rápidamente la correcta instalación y funcionamiento en cualquier equipo:
+
+1. **Prueba de inicio**:
+   - Inicia WezTerm. Verifica que no aparezcan alertas rojas de error de Lua al arrancar.
+   - Presiona `F12` para abrir la consola de depuración y confirma que no haya excepciones reportadas.
+2. **Prueba de Pestañas y Reubicación**:
+   - Presiona `Ctrl + Shift + t` (en macOS `Cmd + t`) para abrir 2 o 3 pestañas adicionales.
+   - Navega secuencialmente con `Ctrl + Tab` y `Ctrl + Shift + Tab`.
+   - Navega directamente usando `Alt + 1`, `Alt + 2`, etc. (en macOS `Cmd + 1`, `Cmd + 2`).
+   - Mueve una pestaña a la izquierda con `Ctrl + Shift + PageUp` y a la derecha con `Ctrl + Shift + PageDown`.
+   - Renombra la pestaña con `Ctrl + a` y luego `t`. Escribe un nombre y presiona Enter.
+   - Restablece el nombre automático presionando `Ctrl + a` y luego `Shift + t`.
+   - Alterna la barra de pestañas presionando `F9` o `Ctrl + a` y luego `z`.
+   - Cierra una pestaña con `Ctrl + Shift + w` (en macOS `Cmd + w`).
+3. **Prueba de Paneles (Splits), Redimensión y Swap**:
+   - Divide horizontalmente con `Ctrl + Shift + d` (en macOS `Cmd + d`).
+   - Divide verticalmente con `Ctrl + Shift + e` (en macOS `Cmd + e`).
+   - Presiona `Ctrl + a` y luego `r`: pulsa las `Flechas` o `h`, `j`, `k`, `l` para verificar el cambio de tamaño inmediato y visible (3 celdas). Sal con `Esc`.
+   - Presiona `Ctrl + a` y luego `w`: aparecerán números sobre cada panel; presiona el número de otro panel para intercambiar sus posiciones de inmediato.
+   - Maximiza y restaura el panel con `Ctrl + Shift + Enter` (en macOS `Cmd + Enter`).
+   - Cierra el panel con `Ctrl + Shift + x` (en macOS `Cmd + x`).
+4. **Prueba de Shell / Readline (Linux / Windows)**:
+   - Escribe un comando largo en tu shell (ej. `echo palabra1 palabra2 palabra3`).
+   - Presiona `Alt + b` y `Alt + f` para retroceder y avanzar entre palabras. Confirma que la shell responde y WezTerm no intercepta la tecla.
+5. **Prueba de Leader Key (`Ctrl + a`)**:
+   - Presiona `Ctrl + a` seguido de `a` en la shell: el cursor debe moverse al inicio de la línea.
+   - Presiona `Ctrl + a` seguido de `n` o `s` para interactuar con los fondos de pantalla.
